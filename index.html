@@ -10,17 +10,15 @@
 html, body { background: #fdf5f6; font-family: 'Hiragino Sans', sans-serif; color: #3a2830; }
 
 .site-header { background: #fff; border-bottom: 0.5px solid #f0dde0; padding: 16px 20px 14px; max-width: 860px; margin: 0 auto; }
-.site-logo-img { width: 72px; height: 72px; flex-shrink: 0; object-fit: contain; }
-.site-header-text { flex: 1; }
 .site-title { font-size: 17px; font-weight: 700; color: #cd5c5c; font-family: 'Zen Maru Gothic', sans-serif; letter-spacing: 0.04em; margin-bottom: 6px; }
 .site-desc { font-size: 11px; color: #8a7078; line-height: 1.7; }
 
-.layout { display: flex; min-height: calc(100vh - 110px); max-width: 860px; margin: 0 auto; }
+.layout { display: flex; min-height: calc(100vh - 90px); max-width: 860px; margin: 0 auto; }
 
 .preview-col { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 8px 16px 16px; background: #f9eff1; border-right: 0.5px solid #f0dde0; }
 .preview-label { font-size: 10px; color: #b09098; margin-bottom: 6px; text-align: center; }
-#preview-wrap { position: relative; width: 180px; height: 390px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(180,80,80,0.15); user-select: none; touch-action: none; background: #e8d8da; cursor: crosshair; }
-canvas#preview { display: block; width: 180px; height: 390px; }
+#preview-wrap { position: relative; width: 180px; height: 320px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(180,80,80,0.15); user-select: none; touch-action: none; background: #e8d8da; cursor: crosshair; }
+canvas#preview { display: block; width: 180px; height: 320px; }
 .drag-tip { margin-top: 10px; font-size: 10px; color: #b09098; text-align: center; line-height: 1.7; padding: 7px 10px; background: #fff; border-radius: 8px; border: 0.5px solid #f0dde0; }
 
 .controls-col { flex: 1; padding: 20px 16px 80px; }
@@ -29,7 +27,7 @@ canvas#preview { display: block; width: 180px; height: 390px; }
 .step-num { width: 20px; height: 20px; border-radius: 50%; background: #cd5c5c; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .sec-sub { font-size: 11px; color: #b09098; margin: 9px 0 5px; }
 
-.upload-btn { display: block; width: 100%; padding: 11px; border: 1px dashed #e8c8cc; border-radius: 10px; background: transparent; color: #8a7078; font-size: 13px; cursor: pointer; font-family: inherit; text-align: center; transition: background 0.15s; }
+.upload-btn { display: block; width: 100%; padding: 11px; border: 1px dashed #e8c8cc; border-radius: 10px; background: transparent; color: #8a7078; font-size: 13px; cursor: pointer; font-family: inherit; text-align: center; }
 .upload-btn:hover { background: #fff8f8; }
 
 .text-input { width: 100%; padding: 9px 11px; font-size: 13px; border: 0.5px solid #f0dde0; border-radius: 9px; background: #fff8f8; color: #3a2830; font-family: inherit; }
@@ -78,12 +76,11 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 .clear-btn { width: 100%; padding: 11px; background: transparent; border: 0.5px solid #f0dde0; border-radius: 12px; font-size: 13px; color: #b09098; cursor: pointer; font-family: inherit; margin-top: 8px; }
 .clear-btn:hover { background: #fff8f8; color: #cd5c5c; }
 
-/* Modals */
 .modal-bg { display: none; position: fixed; inset: 0; background: rgba(60,20,30,0.5); z-index: 100; align-items: center; justify-content: center; }
 .modal-bg.open { display: flex; }
 .modal { background: #fff; border-radius: 18px; padding: 20px; width: min(380px, 94vw); max-height: 92vh; display: flex; flex-direction: column; }
 .modal-title { font-size: 15px; font-weight: 700; color: #cd5c5c; margin-bottom: 12px; font-family: 'Zen Maru Gothic', sans-serif; text-align: center; }
-.crop-box { position: relative; width: 60%; margin: 0 auto; aspect-ratio: 1290/2796; background: #f9eff1; border-radius: 12px; overflow: hidden; cursor: grab; user-select: none; touch-action: none; flex-shrink: 0; }
+.crop-box { position: relative; width: 60%; margin: 0 auto; aspect-ratio: 9/16; background: #f9eff1; border-radius: 12px; overflow: hidden; cursor: grab; user-select: none; touch-action: none; flex-shrink: 0; }
 .crop-box.dragging { cursor: grabbing; }
 .crop-box img { position: absolute; transform-origin: 0 0; pointer-events: none; }
 .crop-slider-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
@@ -92,38 +89,31 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 .modal-btn.primary { background: #cd5c5c; color: #fff; border-color: #cd5c5c; font-weight: 700; }
 .modal-btn:hover { opacity: 0.82; }
 
-/* Save modal */
 .save-preview { width: 100%; max-height: 55vh; object-fit: contain; border-radius: 10px; margin-bottom: 12px; display: block; }
 .save-note { font-size: 12px; color: #8a7078; text-align: center; margin-bottom: 14px; line-height: 1.7; background: #fff8f8; border-radius: 8px; padding: 10px; }
 
 @media (max-width: 540px) {
   .layout { flex-direction: column; }
   .preview-col { width: 100%; height: auto; position: sticky; top: 0; flex-direction: row; align-items: center; justify-content: center; gap: 12px; padding: 10px 16px; z-index: 5; }
-  #preview-wrap { width: 90px; height: 195px; flex-shrink: 0; }
-  canvas#preview { width: 90px; height: 195px; }
+  #preview-wrap { width: 90px; height: 160px; flex-shrink: 0; }
+  canvas#preview { width: 90px; height: 160px; }
   .drag-tip { font-size: 10px; flex: 1; max-width: 180px; margin-top: 0; }
   .controls-col { padding: 12px 12px 80px; }
-  .site-header { padding: 12px 16px; gap: 10px; }
-  .site-logo-img { width: 56px; height: 56px; }
-  .site-title { font-size: 15px; }
 }
 </style>
 </head>
 <body>
 
 <div class="site-header">
-  
-  <div class="site-header-text">
-    <div class="site-title">ペットのもしも待受メイキング</div>
-    <div class="site-desc">ペットの写真でスマホの待受画像を作ります。飼い主の緊急時にペットの置き去り死を防ぐための注意事項を、かわいい写真と一緒に呼びかけます。</div>
-  </div>
+  <div class="site-title">🐾 ペットのもしも待受メイキング</div>
+  <div class="site-desc">ペットの写真でスマホの待受画像を作ります。飼い主の緊急時にペットの置き去り死を防ぐための注意事項を、かわいい写真と一緒に呼びかけます。</div>
 </div>
 
 <div class="layout">
   <div class="preview-col">
-    <div class="preview-label">プレビュー（19.5:9）</div>
+    <div class="preview-label">プレビュー</div>
     <div id="preview-wrap">
-      <canvas id="preview" width="1290" height="2796"></canvas>
+      <canvas id="preview" width="1080" height="1920"></canvas>
     </div>
     <div class="drag-tip">
       👆 テキストは指でドラッグして移動<br>
@@ -132,6 +122,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
   </div>
 
   <div class="controls-col">
+
     <div class="step">
       <div class="step-title"><span class="step-num">1</span>写真</div>
       <label class="upload-btn" onclick="openCropModal()">📷 あなたのペットの写真を選択してください</label>
@@ -145,8 +136,8 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
       <p class="input-note">（空欄だと「ペット」と記載されます）</p>
       <p class="sec-sub">フォント</p>
       <div class="font-row">
-        <button class="fbtn active" data-font="'Zen Maru Gothic'" onclick="pickFont(this)" style="font-family:'Zen Maru Gothic'">まるごしっく</button>
-        <button class="fbtn" data-font="'Kaisei Decol'" onclick="pickFont(this)" style="font-family:'Kaisei Decol'">明朝デコル</button>
+        <button class="fbtn active" data-font="'Zen Maru Gothic'" data-lang="ja" onclick="pickFont(this)" style="font-family:'Zen Maru Gothic'">まるごしっく</button>
+        <button class="fbtn" data-font="'Kaisei Decol'" data-lang="ja" onclick="pickFont(this)" style="font-family:'Kaisei Decol'">明朝デコル</button>
         <button class="fbtn" data-font="'Darumadrop One'" data-lang="en" onclick="pickFont(this)" style="font-family:'Darumadrop One'">Daruma</button>
       </div>
       <p class="sec-sub">タイトルの文字サイズ</p>
@@ -267,7 +258,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 <!-- Save Modal -->
 <div class="modal-bg" id="save-modal">
   <div class="modal" style="align-items:stretch;position:relative">
-    <button id="save-close-x" onclick="closeSaveModal()" style="display:none;position:absolute;top:12px;left:12px;width:32px;height:32px;border-radius:50%;border:none;background:#f0dde0;color:#cd5c5c;font-size:18px;cursor:pointer;line-height:1;font-weight:700">×</button>
+    <button id="save-close-x" onclick="closeSaveModal()" style="display:none;position:absolute;top:12px;left:12px;width:32px;height:32px;border-radius:50%;border:none;background:#f0dde0;color:#cd5c5c;font-size:18px;cursor:pointer;line-height:32px;text-align:center;font-weight:700">×</button>
     <div class="modal-title">🎉 できあがり！</div>
     <img id="save-preview" class="save-preview" />
     <div class="save-note" id="save-note"></div>
@@ -278,18 +269,30 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
   </div>
 </div>
 
+<!-- Clear Modal -->
+<div class="modal-bg" id="clear-modal">
+  <div class="modal" style="align-items:stretch;text-align:center">
+    <div style="font-size:32px;margin-bottom:12px">🐾</div>
+    <div class="modal-title" style="color:#5a3844">編集内容をクリアしますか？</div>
+    <p style="font-size:13px;color:#8a7078;line-height:1.7;margin-bottom:20px">編集した内容は元に戻せません。</p>
+    <div class="modal-btns">
+      <button class="modal-btn" onclick="closeClearModal()">編集に戻る</button>
+      <button class="modal-btn primary" onclick="doClean()">クリアする</button>
+    </div>
+  </div>
+</div>
+
 <script>
-const CW = 1290, CH = 2796;
+const CW = 1080, CH = 1920;
 let img = null, zoom = 1, baseZoom = 1, imgX = 0, imgY = 0;
-let bannerPos = { x: CW/2, y: CH*0.36 };
-let msgPos    = { x: CW/2, y: CH*0.74 };
-let bannerFontScale = 1.0;
+let bannerPos = { x: CW/2, y: CH*0.38 };
+let msgPos    = { x: CW/2, y: CH*0.76 };
+let bannerFontScale = 1.0, msgFontScale = 1.0;
 let bColor = '#ffffff', mColor = '#ffffff';
 let bStroke = 'none', mStroke = 'none';
 let font = "'Zen Maru Gothic'";
-let decoColor = 'gold';
 let isEnglish = false;
-let msgFontScale = 1.0;
+let decoColor = 'gold';
 let msgBg = 'none';
 let savedDataUrl = '';
 
@@ -308,9 +311,9 @@ cropBox.addEventListener('mousedown', e => { cDrag=true; cLX=e.clientX; cLY=e.cl
 cropBox.addEventListener('touchstart', e => { const t=e.touches[0]; cDrag=true; cLX=t.clientX; cLY=t.clientY; }, {passive:true});
 document.addEventListener('mousemove', e => { if(!cDrag||!img) return; moveCrop(e.clientX-cLX,e.clientY-cLY); cLX=e.clientX; cLY=e.clientY; });
 document.addEventListener('touchmove', e => { if(!cDrag||!img) return; const t=e.touches[0]; moveCrop(t.clientX-cLX,t.clientY-cLY); cLX=t.clientX; cLY=t.clientY; }, {passive:true});
-document.addEventListener('mouseup', ()=>{ cDrag=false; cropBox.classList.remove('dragging'); });
-document.addEventListener('touchend', ()=>{ cDrag=false; });
-function moveCrop(dx,dy) {
+document.addEventListener('mouseup', () => { cDrag=false; cropBox.classList.remove('dragging'); });
+document.addEventListener('touchend', () => { cDrag=false; });
+function moveCrop(dx, dy) {
   const s = CW / cropBox.getBoundingClientRect().width;
   imgX+=dx*s; imgY+=dy*s; clamp(); requestAnimationFrame(updateCropImg);
 }
@@ -318,37 +321,37 @@ function moveCrop(dx,dy) {
 // ---- Preview drag + pinch ----
 const pw = document.getElementById('preview-wrap');
 let tDrag=null, tLX=0, tLY=0, pinching=false, pinchD0=0, pinchS0=1;
-
-pw.addEventListener('mousedown', e=>startTDrag(e.clientX,e.clientY));
-pw.addEventListener('touchstart', e=>{
+pw.addEventListener('mousedown', e => startTDrag(e.clientX, e.clientY));
+pw.addEventListener('touchstart', e => {
   if(e.touches.length===2){ pinching=true; tDrag=null; pinchD0=dist2(e); pinchS0=bannerFontScale; e.preventDefault(); }
-  else{ e.preventDefault(); startTDrag(e.touches[0].clientX,e.touches[0].clientY); }
-},{passive:false});
-document.addEventListener('mousemove', e=>onTMove(e.clientX,e.clientY));
-document.addEventListener('touchmove', e=>{
+  else{ e.preventDefault(); startTDrag(e.touches[0].clientX, e.touches[0].clientY); }
+}, {passive:false});
+document.addEventListener('mousemove', e => onTMove(e.clientX, e.clientY));
+document.addEventListener('touchmove', e => {
   if(pinching&&e.touches.length===2){ bannerFontScale=Math.max(0.4,Math.min(2.5,pinchS0*dist2(e)/pinchD0)); render(); e.preventDefault(); }
-  else if(tDrag){ e.preventDefault(); onTMove(e.touches[0].clientX,e.touches[0].clientY); }
-},{passive:false});
-document.addEventListener('mouseup',()=>tDrag=null);
-document.addEventListener('touchend',e=>{ if(e.touches.length<2) pinching=false; tDrag=null; });
+  else if(tDrag){ e.preventDefault(); onTMove(e.touches[0].clientX, e.touches[0].clientY); }
+}, {passive:false});
+document.addEventListener('mouseup', () => tDrag=null);
+document.addEventListener('touchend', e => { if(e.touches.length<2) pinching=false; tDrag=null; });
 
 function dist2(e){ const a=e.touches[0],b=e.touches[1]; return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY); }
 function toCanvas(cx,cy){ const r=pw.getBoundingClientRect(); return [(cx-r.left)*CW/r.width,(cy-r.top)*CH/r.height]; }
 function startTDrag(cx,cy){
   const [x,y]=toCanvas(cx,cy);
-  if(Math.abs(x-bannerPos.x)<CW*0.48&&Math.abs(y-bannerPos.y)<CH*0.12) tDrag='b';
-  else if(Math.abs(x-msgPos.x)<CW*0.46&&Math.abs(y-msgPos.y)<CH*0.14) tDrag='m';
+  if(Math.abs(x-bannerPos.x)<CW*0.48&&Math.abs(y-bannerPos.y)<CH*0.10) tDrag='b';
+  else if(Math.abs(x-msgPos.x)<CW*0.46&&Math.abs(y-msgPos.y)<CH*0.12) tDrag='m';
   tLX=cx; tLY=cy;
 }
 function onTMove(cx,cy){
   if(!tDrag) return;
-  const dx=cx-tLX,dy=cy-tLY; tLX=cx; tLY=cy;
+  const dx=cx-tLX, dy=cy-tLY; tLX=cx; tLY=cy;
   const r=pw.getBoundingClientRect();
-  if(tDrag==='b'){ bannerPos.x=cv(bannerPos.x+dx*CW/r.width,80,CW-80); bannerPos.y=cv(bannerPos.y+dy*CH/r.height,40,CH-40); }
-  else{ msgPos.x=cv(msgPos.x+dx*CW/r.width,80,CW-80); msgPos.y=cv(msgPos.y+dy*CH/r.height,40,CH-40); }
+  const sx=CW/r.width, sy=CH/r.height;
+  if(tDrag==='b'){ bannerPos.x=clampV(bannerPos.x+dx*sx,80,CW-80); bannerPos.y=clampV(bannerPos.y+dy*sy,40,CH-40); }
+  else{ msgPos.x=clampV(msgPos.x+dx*sx,80,CW-80); msgPos.y=clampV(msgPos.y+dy*sy,40,CH-40); }
   render();
 }
-function cv(v,mn,mx){ return Math.max(mn,Math.min(mx,v)); }
+function clampV(v,mn,mx){ return Math.max(mn,Math.min(mx,v)); }
 
 // ---- File / Crop ----
 function openCropModal(){ document.getElementById('file-input').click(); }
@@ -394,7 +397,12 @@ function confirmCrop(){ closeCropModal(); document.getElementById('dl-btn').disa
 
 // ---- Controls ----
 function syncV(id,vid){ document.getElementById(vid).textContent=document.getElementById(id).value; }
-function pickFont(btn){ document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); font=btn.dataset.font; render(); }
+function pickFont(btn){
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); font=btn.dataset.font;
+  isEnglish=btn.dataset.lang==='en';
+  render();
+}
 function pickColor(t,el){
   document.querySelectorAll('#'+(t==='b'?'bc':'mc')+' .sw').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
@@ -416,79 +424,61 @@ function pickDeco(el){
   document.querySelectorAll('.dsw').forEach(s=>s.classList.remove('active'));
   el.classList.add('active'); decoColor=el.dataset.deco; render();
 }
+function pickMsgBg(btn){
+  btn.closest('.btn-group').querySelectorAll('.gbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); msgBg=btn.dataset.v;
+  document.getElementById('msg-bg-opacity-row').style.display=msgBg==='none'?'none':'flex';
+  render();
+}
 
-// ---- Save: open new tab (works on iOS Safari) ----
+// ---- Save ----
 function openSaveModal(){
   render();
-  savedDataUrl = document.getElementById('preview').toDataURL('image/png');
-  document.getElementById('save-preview').src = savedDataUrl;
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  const note = document.getElementById('save-note');
-  const dlBtn = document.getElementById('save-dl-btn');
-  if (isIOS) {
-    note.textContent = '画像を長押しして「写真に追加」を選ぶと保存できます。';
-    dlBtn.style.display = 'none';
-    document.getElementById('save-close-x').style.display = 'flex';
-    document.getElementById('save-close-x').style.alignItems = 'center';
-    document.getElementById('save-close-x').style.justifyContent = 'center';
-    document.getElementById('save-modify-btn').style.display = 'none';
-  } else {
-    note.textContent = '「保存する」を押すとダウンロードされます。';
-    dlBtn.style.display = '';
-    document.getElementById('save-close-x').style.display = 'none';
-    document.getElementById('save-modify-btn').style.display = '';
-  }
+  savedDataUrl=document.getElementById('preview').toDataURL('image/png');
+  document.getElementById('save-preview').src=savedDataUrl;
+  document.getElementById('save-dl-link') && (document.getElementById('save-dl-link').href=savedDataUrl);
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  document.getElementById('save-note').textContent=isIOS
+    ? '画像を長押しして「写真に追加」を選んで保存してください。'
+    : '「保存する」を押すとダウンロードされます。';
+  document.getElementById('save-close-x').style.display=isIOS?'flex':'none';
+  document.getElementById('save-modify-btn').style.display=isIOS?'none':'';
+  document.getElementById('save-dl-btn').style.display=isIOS?'none':'';
   document.getElementById('save-modal').classList.add('open');
 }
 function closeSaveModal(){ document.getElementById('save-modal').classList.remove('open'); }
 function doSave(){
-  const a=document.createElement('a');
-  a.href=savedDataUrl;
-  a.download='pet-wallpaper.png';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  const a=document.createElement('a'); a.href=savedDataUrl; a.download='pet-wallpaper.png';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-function pickMsgBg(btn) {
-  btn.closest('.btn-group').querySelectorAll('.gbtn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  msgBg = btn.dataset.v;
-  document.getElementById('msg-bg-opacity-row').style.display = msgBg==='none' ? 'none' : 'flex';
-  render();
-}
-function openClearModal() { document.getElementById('clear-modal').classList.add('open'); }
-function closeClearModal() { document.getElementById('clear-modal').classList.remove('open'); }
-function doClean() {
+// ---- Clear ----
+function openClearModal(){ document.getElementById('clear-modal').classList.add('open'); }
+function closeClearModal(){ document.getElementById('clear-modal').classList.remove('open'); }
+function doClean(){
   closeClearModal();
   img=null; zoom=1; baseZoom=1; imgX=0; imgY=0;
-  bannerPos={x:CW/2,y:CH*0.36}; msgPos={x:CW/2,y:CH*0.74};
-  bannerFontScale=1.0; msgFontScale=1.0; msgBg='none';
+  bannerPos={x:CW/2,y:CH*0.38}; msgPos={x:CW/2,y:CH*0.76};
+  bannerFontScale=1.0; msgFontScale=1.0; msgBg='none'; isEnglish=false;
   bColor='#ffffff'; mColor='#ffffff'; bStroke='none'; mStroke='none';
-  font="'Zen Maru Gothic'"; decoColor='gold'; isEnglish=false;
+  font="'Zen Maru Gothic'"; decoColor='gold';
   document.getElementById('animal').value='';
-  document.getElementById('banner-size').value=1.0;
-  document.getElementById('banner-size-v').textContent='1.0';
-  document.getElementById('msg-size').value=1.0;
-  document.getElementById('msg-size-v').textContent='1.0';
-  document.getElementById('msg-bg-opacity').value=0.7;
-  document.getElementById('msg-bg-opacity-v').textContent='0.7';
+  document.getElementById('banner-size').value=1.0; document.getElementById('banner-size-v').textContent='1.0';
+  document.getElementById('msg-size').value=1.0; document.getElementById('msg-size-v').textContent='1.0';
+  document.getElementById('msg-bg-opacity').value=0.7; document.getElementById('msg-bg-opacity-v').textContent='0.7';
   document.getElementById('msg-bg-opacity-row').style.display='none';
   document.getElementById('deco').checked=true;
   document.getElementById('dl-btn').disabled=true;
-  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
-  document.querySelector('.fbtn').classList.add('active');
-  document.querySelectorAll('#bc .sw').forEach(s=>s.classList.remove('active'));
-  document.querySelector('#bc .sw').classList.add('active');
-  document.querySelectorAll('#mc .sw').forEach(s=>s.classList.remove('active'));
-  document.querySelector('#mc .sw').classList.add('active');
-  document.querySelectorAll('.dsw').forEach(s=>s.classList.remove('active'));
-  document.querySelector('.dsw').classList.add('active');
-  document.querySelectorAll('.btn-group .gbtn').forEach(b=>{ if(b.dataset.v==='none') b.classList.add('active'); else b.classList.remove('active'); });
+  document.querySelectorAll('.fbtn').forEach((b,i)=>i===0?b.classList.add('active'):b.classList.remove('active'));
+  document.querySelectorAll('#bc .sw').forEach((s,i)=>i===0?s.classList.add('active'):s.classList.remove('active'));
+  document.querySelectorAll('#mc .sw').forEach((s,i)=>i===0?s.classList.add('active'):s.classList.remove('active'));
+  document.querySelectorAll('.dsw').forEach((s,i)=>i===0?s.classList.add('active'):s.classList.remove('active'));
+  document.querySelectorAll('.btn-group .gbtn').forEach(b=>b.dataset.v==='none'?b.classList.add('active'):b.classList.remove('active'));
   document.getElementById('b-sw-row').style.display='none';
   document.getElementById('m-sw-row').style.display='none';
   render();
 }
+
 // ---- Render ----
 function render(){
   const cv=document.getElementById('preview');
@@ -503,15 +493,13 @@ function render(){
 
 function drawDeco(ctx){
   const c=decoColors[decoColor]||decoColors.gold;
-  // Scale y positions: designed at 1920, now 2796 => factor 1.456
-  const sy=CH/1920;
-  ctx.save(); ctx.strokeStyle=c; ctx.lineWidth=Math.round(8*sy);
-  ctx.beginPath(); ctx.moveTo(0,155*sy); ctx.bezierCurveTo(CW*.22,275*sy,CW*.52,90*sy,CW*.76,250*sy); ctx.bezierCurveTo(CW*.88,310*sy,CW,195*sy,CW,175*sy); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(CW*.08,68*sy); ctx.bezierCurveTo(CW*.32,192*sy,CW*.58,55*sy,CW*.88,162*sy); ctx.stroke();
+  ctx.save(); ctx.strokeStyle=c; ctx.lineWidth=8;
+  ctx.beginPath(); ctx.moveTo(0,155); ctx.bezierCurveTo(CW*.22,275,CW*.52,90,CW*.76,250); ctx.bezierCurveTo(CW*.88,310,CW,195,CW,175); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(CW*.08,68); ctx.bezierCurveTo(CW*.32,192,CW*.58,55,CW*.88,162); ctx.stroke();
   ctx.restore();
-  [[105,192,88],[CW-125,228,94],[CW*.5,82,64],[52,368,52],[CW-72,405,60]].forEach(([x,y,s])=>star(ctx,x,y*sy,s*sy,c));
-  [[75,CH-108*sy,42],[185,CH-50*sy,56],[325,CH-92*sy,46],[470,CH-40*sy,64],[592,CH-122*sy,38],[710,CH-58*sy,50],[850,CH-80*sy,60],[970,CH-128*sy,44],[132,CH-192*sy,33],[430,CH-172*sy,46],[742,CH-158*sy,40],[930,CH-210*sy,35]].forEach(([x,y,r])=>{ ctx.beginPath(); ctx.arc(x,y,r*sy,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
-  [[CW*.28,98*sy],[CW*.54,170*sy],[CW*.70,112*sy],[CW*.18,218*sy]].forEach(([x,y])=>{ ctx.beginPath(); ctx.arc(x,y,17*sy,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
+  [[105,192,88],[CW-125,228,94],[CW*.5,82,64],[52,368,52],[CW-72,405,60]].forEach(([x,y,s])=>star(ctx,x,y,s,c));
+  [[75,CH-108,42],[185,CH-50,56],[325,CH-92,46],[470,CH-40,64],[592,CH-122,38],[710,CH-58,50],[850,CH-80,60],[970,CH-128,44],[132,CH-192,33],[430,CH-172,46],[742,CH-158,40],[930,CH-210,35]].forEach(([x,y,r])=>{ ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
+  [[CW*.28,98],[CW*.54,170],[CW*.70,112],[CW*.18,218]].forEach(([x,y])=>{ ctx.beginPath(); ctx.arc(x,y,17,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
 }
 function star(ctx,cx,cy,sz,c){
   ctx.save(); ctx.translate(cx,cy); ctx.fillStyle=c; ctx.beginPath();
@@ -536,41 +524,62 @@ function arcText(ctx,text,cx,cy,radius,fnt,color,stroke,sw){
 }
 
 function drawBanner(ctx){
-  const animal=document.getElementById('animal').value.trim()||'ペット';
-  const curveVal=parseInt(document.getElementById('curve').value);
+  const animal=document.getElementById('animal').value.trim()||(isEnglish?'pet':'ペット');
   const sw=parseInt(document.getElementById('b-sw').value);
   const maxW=CW-80;
-  const baseFs=Math.round(86*bannerFontScale), animalFs=Math.round(76*bannerFontScale);
-  const prefix=isEnglish?'My beloved ':' 家に大切な', suffix=isEnglish?' is home':' がいます';
+  const baseFs=Math.round(72*bannerFontScale);
+  const animalFs=Math.round(96*bannerFontScale);
+  const prefix=isEnglish?'My beloved ':'家に大切な';
+  const suffix=isEnglish?' is home':'がいます';
+
   ctx.font=`700 ${baseFs}px ${font},'Hiragino Sans',sans-serif`; const pW=ctx.measureText(prefix).width, sW=ctx.measureText(suffix).width;
   ctx.font=`700 ${animalFs}px ${font},'Hiragino Sans',sans-serif`; const aW=ctx.measureText(animal).width;
   const shrink=(pW+aW+sW)>maxW?maxW/(pW+aW+sW):1;
   const fB=Math.floor(baseFs*shrink), fA=Math.floor(animalFs*shrink);
-  if(Math.abs(curveVal)<20){
-    ctx.save(); ctx.textAlign='left'; ctx.textBaseline='alphabetic';
-    let x=bannerPos.x-(pW+aW+sW)*shrink/2; const y=bannerPos.y;
-    const draw=(t,fs)=>{ ctx.font=`700 ${fs}px ${font},'Hiragino Sans',sans-serif`; if(bStroke!=='none'){ ctx.strokeStyle=sc(bStroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(t,x,y); } ctx.fillStyle=bColor; ctx.fillText(t,x,y); x+=ctx.measureText(t).width; };
-    draw(prefix,fB); draw(animal,fA); draw(suffix,fB); ctx.restore();
-  } else {
-    const fs=Math.floor(90*bannerFontScale*shrink);
-    arcText(ctx,prefix+animal+suffix,bannerPos.x,bannerPos.y,curveVal,`700 ${fs}px ${font},'Hiragino Sans',sans-serif`,bColor,bStroke,sw);
-  }
+
+  ctx.save(); ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+  let x=bannerPos.x-(pW+aW+sW)*shrink/2; const y=bannerPos.y;
+  const draw=(t,fs)=>{
+    ctx.font=`700 ${fs}px ${font},'Hiragino Sans',sans-serif`;
+    if(bStroke!=='none'){ ctx.strokeStyle=sc(bStroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(t,x,y); }
+    ctx.fillStyle=bColor; ctx.fillText(t,x,y); x+=ctx.measureText(t).width;
+  };
+  draw(prefix,fB); draw(animal,fA); draw(suffix,fB);
+  ctx.restore();
 }
 
 function drawMsg(ctx){
-  const animal=document.getElementById('animal').value.trim()||'ペット';
+  const animal=document.getElementById('animal').value.trim()||(isEnglish?'pet':'ペット');
   const msgs=isEnglish
-    ? [`My ${animal} is waiting for me at home`,`If something happens to me,`,`please take care of my pet.`]
-    : [`${animal}が私の帰りを待っています`,'私にもしものことがあったら','気にかけてもらえたら幸いです'];
+    ?[`My ${animal} is waiting for me at home`,'If something happens to me,','please take care of my pet.']
+    :[`${animal}が私の帰りを待っています`,'私にもしものことがあったら','気にかけてもらえたら幸いです'];
   const sw=parseInt(document.getElementById('m-sw').value);
-  const baseFs=Math.round(55*msgFontScale);
+  const baseFs=Math.round(46*msgFontScale);
   ctx.font=`700 ${baseFs}px ${font},'Hiragino Sans',sans-serif`;
   const maxLW=msgs.reduce((m,s)=>Math.max(m,ctx.measureText(s).width),0);
   const fs=maxLW>CW-80?Math.floor(baseFs*(CW-80)/maxLW):baseFs;
   const lh=fs*1.75;
+  const totalH=(msgs.length-1)*lh;
+  const padX=60, padY=40;
+  if(msgBg!=='none'){
+    const opacity=parseFloat(document.getElementById('msg-bg-opacity').value);
+    const bgC={white:`rgba(255,255,255,${opacity})`,black:`rgba(0,0,0,${opacity})`,pink:`rgba(240,180,185,${opacity})`};
+    ctx.font=`700 ${fs}px ${font},'Hiragino Sans',sans-serif`;
+    const bw=Math.min(maxLW*(fs/baseFs)+padX*2, CW-40);
+    const bh=totalH+fs+padY*2;
+    const bx=msgPos.x-bw/2, by=msgPos.y-totalH/2-fs-padY;
+    ctx.save(); ctx.fillStyle=bgC[msgBg]||bgC.white;
+    ctx.beginPath();
+    const r=30;
+    ctx.moveTo(bx+r,by); ctx.lineTo(bx+bw-r,by); ctx.quadraticCurveTo(bx+bw,by,bx+bw,by+r);
+    ctx.lineTo(bx+bw,by+bh-r); ctx.quadraticCurveTo(bx+bw,by+bh,bx+bw-r,by+bh);
+    ctx.lineTo(bx+r,by+bh); ctx.quadraticCurveTo(bx,by+bh,bx,by+bh-r);
+    ctx.lineTo(bx,by+r); ctx.quadraticCurveTo(bx,by,bx+r,by);
+    ctx.closePath(); ctx.fill(); ctx.restore();
+  }
   ctx.save(); ctx.font=`700 ${fs}px ${font},'Hiragino Sans',sans-serif`; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   msgs.forEach((m,i)=>{
-    const y=msgPos.y-(msgs.length-1)*lh/2+i*lh;
+    const y=msgPos.y-totalH/2+i*lh;
     if(mStroke!=='none'){ ctx.strokeStyle=sc(mStroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(m,msgPos.x,y); }
     ctx.fillStyle=mColor; ctx.fillText(m,msgPos.x,y);
   });
@@ -579,17 +588,5 @@ function drawMsg(ctx){
 
 render();
 </script>
-<!-- Clear Modal -->
-<div class="modal-bg" id="clear-modal">
-  <div class="modal" style="align-items:stretch;text-align:center">
-    <div style="font-size:32px;margin-bottom:12px">🐾</div>
-    <div class="modal-title" style="color:#5a3844">編集内容をクリアしますか？</div>
-    <p style="font-size:13px;color:#8a7078;line-height:1.7;margin-bottom:20px">編集した内容は元に戻せません。</p>
-    <div class="modal-btns">
-      <button class="modal-btn" onclick="closeClearModal()">編集に戻る</button>
-      <button class="modal-btn primary" onclick="doClean()" style="background:#cd5c5c">クリアする</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
