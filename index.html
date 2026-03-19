@@ -147,6 +147,12 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
         <button class="fbtn" data-font="'Kaisei Decol'" onclick="pickFont(this)" style="font-family:'Kaisei Decol'">明朝デコル</button>
         <button class="fbtn" data-font="'DotGothic16'" onclick="pickFont(this)" style="font-family:'DotGothic16'">ドットゴシック</button>
       </div>
+      <p class="sec-sub">タイトルの文字サイズ</p>
+      <div class="slider-row">
+        <span class="sl-lbl">サイズ</span>
+        <input type="range" id="banner-size" min="0.4" max="2.0" step="0.05" value="1.0" oninput="bannerFontScale=parseFloat(this.value);syncV('banner-size','banner-size-v');render()" />
+        <span class="sl-val" id="banner-size-v">1.0</span>
+      </div>
       <p class="sec-sub">バナーの湾曲</p>
       <div class="slider-row">
         <span class="sl-lbl">カーブ</span>
@@ -245,12 +251,13 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 
 <!-- Save Modal -->
 <div class="modal-bg" id="save-modal">
-  <div class="modal" style="align-items:stretch">
+  <div class="modal" style="align-items:stretch;position:relative">
+    <button id="save-close-x" onclick="closeSaveModal()" style="display:none;position:absolute;top:12px;left:12px;width:32px;height:32px;border-radius:50%;border:none;background:#f0dde0;color:#cd5c5c;font-size:18px;cursor:pointer;line-height:1;font-weight:700">×</button>
     <div class="modal-title">🎉 できあがり！</div>
     <img id="save-preview" class="save-preview" />
     <div class="save-note" id="save-note"></div>
-    <div class="modal-btns">
-      <button class="modal-btn" onclick="closeSaveModal()">修正する</button>
+    <div class="modal-btns" id="save-modal-btns">
+      <button class="modal-btn" id="save-modify-btn" onclick="closeSaveModal()">修正する</button>
       <button class="modal-btn primary" id="save-dl-btn" onclick="doSave()">📥 保存する</button>
     </div>
   </div>
@@ -403,9 +410,15 @@ function openSaveModal(){
   if (isIOS) {
     note.textContent = '画像を長押しして「写真に追加」を選ぶと保存できます。';
     dlBtn.style.display = 'none';
+    document.getElementById('save-close-x').style.display = 'flex';
+    document.getElementById('save-close-x').style.alignItems = 'center';
+    document.getElementById('save-close-x').style.justifyContent = 'center';
+    document.getElementById('save-modify-btn').style.display = 'none';
   } else {
     note.textContent = '「保存する」を押すとダウンロードされます。';
     dlBtn.style.display = '';
+    document.getElementById('save-close-x').style.display = 'none';
+    document.getElementById('save-modify-btn').style.display = '';
   }
   document.getElementById('save-modal').classList.add('open');
 }
