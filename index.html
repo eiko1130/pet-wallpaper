@@ -3,16 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ペット壁紙ジェネレーター</title>
+<title>ペットのもしも待受メイキング</title>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Kaisei+Decol:wght@400;700&family=DotGothic16&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; background: #f5eff0; font-family: 'Hiragino Sans', sans-serif; }
+html, body { background: #fdf5f6; font-family: 'Hiragino Sans', sans-serif; color: #3a2830; }
 
-/* ====== TWO-COLUMN LAYOUT ====== */
+/* ===== HEADER ===== */
+.site-header {
+  background: #fff;
+  border-bottom: 0.5px solid #f0dde0;
+  padding: 18px 20px 14px;
+  text-align: center;
+}
+.site-logo { font-size: 20px; font-weight: 700; color: #cd5c5c; font-family: 'Zen Maru Gothic', sans-serif; letter-spacing: 0.04em; }
+.site-logo span { color: #e8a0a0; font-weight: 400; }
+.site-desc {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #8a7078;
+  line-height: 1.8;
+  max-width: 520px;
+  margin-left: auto; margin-right: auto;
+  background: #fff8f8;
+  border-radius: 10px;
+  padding: 10px 14px;
+  border: 0.5px solid #f0dde0;
+  text-align: left;
+}
+
+/* ===== LAYOUT ===== */
 .layout {
   display: flex;
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   max-width: 860px;
   margin: 0 auto;
 }
@@ -29,178 +52,152 @@ html, body { height: 100%; background: #f5eff0; font-family: 'Hiragino Sans', sa
   align-items: center;
   justify-content: center;
   padding: 16px 8px 16px 16px;
-  background: #f0e8ec;
-  border-right: 0.5px solid #e2d4d8;
+  background: #f9eff1;
+  border-right: 0.5px solid #f0dde0;
 }
-.preview-label { font-size: 10px; color: #a09098; margin-bottom: 6px; letter-spacing: 0.05em; text-align: center; }
+.preview-label { font-size: 10px; color: #b09098; margin-bottom: 6px; text-align: center; letter-spacing: 0.04em; }
 
-/* Portrait canvas wrapper - 9:16 */
 #preview-wrap {
   position: relative;
   width: 180px;
   height: 320px;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  box-shadow: 0 4px 20px rgba(180,80,80,0.15);
   cursor: crosshair;
   user-select: none;
   touch-action: none;
-  background: #ccc;
+  background: #e8d8da;
 }
 canvas#preview { display: block; width: 180px; height: 320px; }
 
 .drag-tip {
   margin-top: 10px;
   font-size: 10px;
-  color: #a09098;
+  color: #b09098;
   text-align: center;
-  line-height: 1.5;
-  padding: 6px 8px;
+  line-height: 1.6;
+  padding: 7px 10px;
   background: #fff;
   border-radius: 8px;
-  border: 0.5px solid #e8d4d8;
+  border: 0.5px solid #f0dde0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
-/* Right: controls */
+/* Controls */
 .controls-col {
   flex: 1;
   padding: 20px 16px 80px;
   overflow-y: auto;
 }
 
-.col-title { font-size: 16px; font-weight: 500; color: #3a2830; margin-bottom: 4px; }
-.col-sub { font-size: 12px; color: #a09098; margin-bottom: 16px; }
-
-.step { background: #fff; border: 0.5px solid #e8d8dc; border-radius: 14px; padding: 1rem; margin-bottom: 10px; }
+.step { background: #fff; border: 0.5px solid #f0dde0; border-radius: 14px; padding: 1rem; margin-bottom: 10px; }
 .step-title { font-size: 12px; font-weight: 500; color: #5a3844; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
-.step-num { width: 20px; height: 20px; border-radius: 50%; background: #b07080; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.sec-sub { font-size: 11px; color: #a08898; margin: 9px 0 5px; }
+.step-num { width: 20px; height: 20px; border-radius: 50%; background: #cd5c5c; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sec-sub { font-size: 11px; color: #b09098; margin: 9px 0 5px; }
 
-/* Upload btn */
-.upload-btn { display: block; width: 100%; padding: 10px; border: 1px dashed #dcc8ce; border-radius: 10px; background: transparent; color: #8a7078; font-size: 13px; cursor: pointer; font-family: inherit; text-align: center; }
-.upload-btn:hover { background: #faf8f6; }
-.photo-thumb { width: 100%; height: 80px; object-fit: cover; border-radius: 8px; margin-top: 8px; display: none; }
+.upload-btn { display: block; width: 100%; padding: 11px; border: 1px dashed #e8c8cc; border-radius: 10px; background: transparent; color: #8a7078; font-size: 13px; cursor: pointer; font-family: inherit; text-align: center; transition: background 0.15s; }
+.upload-btn:hover { background: #fff8f8; }
 
-/* Text input */
-.text-input { width: 100%; padding: 9px 11px; font-size: 13px; border: 0.5px solid #e0dbd5; border-radius: 9px; background: #faf8f6; color: #3a2830; font-family: inherit; }
-.text-input:focus { outline: none; border-color: #b5a99f; }
-.text-input::placeholder { color: #c4bdb6; }
+.text-input { width: 100%; padding: 9px 11px; font-size: 13px; border: 0.5px solid #f0dde0; border-radius: 9px; background: #fff8f8; color: #3a2830; font-family: inherit; }
+.text-input:focus { outline: none; border-color: #cd5c5c; background: #fff; }
+.text-input::placeholder { color: #cbb8bc; }
+.input-note { font-size: 11px; color: #c4aeb2; margin-top: 4px; }
 
-/* Slider */
 .slider-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-.sl-lbl { font-size: 11px; color: #a09098; white-space: nowrap; min-width: 46px; }
-.sl-val { font-size: 11px; color: #a09098; min-width: 30px; text-align: right; }
-input[type=range] { flex: 1; accent-color: #b07080; }
+.sl-lbl { font-size: 11px; color: #b09098; white-space: nowrap; min-width: 46px; }
+.sl-val { font-size: 11px; color: #b09098; min-width: 30px; text-align: right; }
+input[type=range] { flex: 1; accent-color: #cd5c5c; }
 
-/* Color swatches */
 .swatches { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
 .sw { width: 26px; height: 26px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform 0.1s; flex-shrink: 0; }
 .sw:hover { transform: scale(1.1); }
-.sw.active { border-color: #b07080; }
-.sw-custom { width: 26px; height: 26px; border-radius: 50%; border: 1px dashed #c4bdb6; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #c4bdb6; flex-shrink: 0; cursor: pointer; }
+.sw.active { border-color: #cd5c5c; transform: scale(1.08); }
+.sw-custom { width: 26px; height: 26px; border-radius: 50%; border: 1px dashed #cbb8bc; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #cbb8bc; flex-shrink: 0; cursor: pointer; }
 .sw-custom input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 
-/* Button group */
 .btn-group { display: flex; gap: 5px; margin-top: 5px; }
-.gbtn { flex: 1; padding: 6px 0; border: 0.5px solid #e0dbd5; border-radius: 8px; background: transparent; color: #a09098; font-size: 11px; cursor: pointer; font-family: inherit; transition: all 0.12s; text-align: center; }
-.gbtn:hover { background: #faf8f6; }
-.gbtn.active { background: #b07080; color: #fff; border-color: #b07080; }
+.gbtn { flex: 1; padding: 6px 0; border: 0.5px solid #f0dde0; border-radius: 8px; background: transparent; color: #b09098; font-size: 11px; cursor: pointer; font-family: inherit; transition: all 0.12s; text-align: center; }
+.gbtn:hover { background: #fff8f8; }
+.gbtn.active { background: #cd5c5c; color: #fff; border-color: #cd5c5c; }
 
-/* Font buttons */
 .font-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
-.fbtn { padding: 6px 10px; border: 0.5px solid #e0dbd5; border-radius: 14px; background: transparent; color: #5a3844; font-size: 12px; cursor: pointer; transition: all 0.12s; }
-.fbtn:hover { background: #faf8f6; }
-.fbtn.active { background: #b07080; color: #fff; border-color: #b07080; }
+.fbtn { padding: 6px 10px; border: 0.5px solid #f0dde0; border-radius: 14px; background: transparent; color: #5a3844; font-size: 12px; cursor: pointer; transition: all 0.12s; }
+.fbtn:hover { background: #fff8f8; }
+.fbtn.active { background: #cd5c5c; color: #fff; border-color: #cd5c5c; }
 
-/* Toggle */
 .tog-row { display: flex; align-items: center; justify-content: space-between; }
 .tog-wrap { position: relative; width: 40px; height: 22px; }
 .tog-wrap input { opacity: 0; width: 0; height: 0; }
-.tog-track { position: absolute; inset: 0; background: #e8d4d8; border-radius: 11px; cursor: pointer; transition: background 0.2s; }
+.tog-track { position: absolute; inset: 0; background: #f0dde0; border-radius: 11px; cursor: pointer; transition: background 0.2s; }
 .tog-track:before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform 0.2s; }
-.tog-wrap input:checked + .tog-track { background: #b07080; }
+.tog-wrap input:checked + .tog-track { background: #cd5c5c; }
 .tog-wrap input:checked + .tog-track:before { transform: translateX(18px); }
 
-/* Download */
-.dl-btn { width: 100%; padding: 13px; background: #b07080; color: #fff; border: none; border-radius: 12px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; margin-top: 4px; }
-.dl-btn:hover { opacity: 0.82; }
+.dl-btn { width: 100%; padding: 14px; background: #cd5c5c; color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Zen Maru Gothic', sans-serif; margin-top: 4px; transition: opacity 0.15s; letter-spacing: 0.05em; }
+.dl-btn:hover { opacity: 0.85; }
 .dl-btn:disabled { opacity: 0.3; cursor: default; }
 
-/* ====== CROP MODAL ====== */
-.modal-bg {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(60,20,30,0.5);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-}
+/* Save modal */
+.save-modal-bg { display: none; position: fixed; inset: 0; background: rgba(60,20,30,0.45); z-index: 200; align-items: center; justify-content: center; }
+.save-modal-bg.open { display: flex; }
+.save-modal { background: #fff; border-radius: 18px; padding: 24px 20px; width: min(340px, 90vw); text-align: center; }
+.save-modal-title { font-size: 16px; font-weight: 700; color: #cd5c5c; margin-bottom: 8px; font-family: 'Zen Maru Gothic', sans-serif; }
+.save-modal-body { font-size: 13px; color: #8a7078; line-height: 1.7; margin-bottom: 16px; }
+.save-img-preview { width: 100%; max-height: 200px; object-fit: contain; border-radius: 10px; margin-bottom: 14px; border: 0.5px solid #f0dde0; }
+.save-btn { display: block; width: 100%; padding: 12px; background: #cd5c5c; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; margin-bottom: 8px; text-decoration: none; }
+.save-close { display: block; width: 100%; padding: 10px; background: transparent; border: 0.5px solid #f0dde0; border-radius: 10px; font-size: 13px; color: #8a7078; cursor: pointer; font-family: inherit; }
+
+/* Crop modal */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(60,20,30,0.5); z-index: 100; align-items: center; justify-content: center; }
 .modal-bg.open { display: flex; }
-.modal {
-  background: #fff;
-  border-radius: 18px;
-  padding: 20px;
-  width: min(360px, 92vw);
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
+.modal { background: #fff; border-radius: 18px; padding: 20px; width: min(360px, 92vw); max-height: 90vh; display: flex; flex-direction: column; }
 .modal-title { font-size: 15px; font-weight: 500; color: #3a2830; margin-bottom: 12px; }
-.crop-box {
-  position: relative;
-  width: 60%;
-  margin: 0 auto;
-  aspect-ratio: 9/16;
-  background: #f0e8ec;
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: grab;
-  user-select: none;
-  touch-action: none;
-  flex-shrink: 0;
-}
+.crop-box { position: relative; width: 60%; margin: 0 auto; aspect-ratio: 9/16; background: #f9eff1; border-radius: 12px; overflow: hidden; cursor: grab; user-select: none; touch-action: none; flex-shrink: 0; }
 .crop-box.dragging { cursor: grabbing; }
 .crop-box img { position: absolute; transform-origin: 0 0; pointer-events: none; }
 .crop-slider-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
 .modal-btns { display: flex; gap: 8px; }
-.modal-btn { flex: 1; padding: 11px; border: 0.5px solid #e0dbd5; border-radius: 10px; background: transparent; color: #8a7078; font-size: 13px; cursor: pointer; font-family: inherit; }
-.modal-btn.primary { background: #b07080; color: #fff; border-color: #b07080; }
+.modal-btn { flex: 1; padding: 11px; border: 0.5px solid #f0dde0; border-radius: 10px; background: transparent; color: #8a7078; font-size: 13px; cursor: pointer; font-family: inherit; }
+.modal-btn.primary { background: #cd5c5c; color: #fff; border-color: #cd5c5c; }
 .modal-btn:hover { opacity: 0.82; }
 
-/* Mobile: stack layout */
+/* Mobile */
 @media (max-width: 540px) {
   .layout { flex-direction: column; }
-  .preview-col {
-    width: 100%;
-    height: auto;
-    position: sticky;
-    top: 0;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 12px;
-    padding: 10px 16px;
-    z-index: 5;
-  }
-  #preview-wrap { width: 100px; height: 178px; flex-shrink: 0; }
-  canvas#preview { width: 100px; height: 178px; }
-  .drag-tip { font-size: 10px; flex: 1; max-width: 200px; margin-top: 0; }
+  .preview-col { width: 100%; height: auto; position: sticky; top: 0; flex-direction: row; align-items: center; justify-content: center; gap: 12px; padding: 10px 16px; z-index: 5; }
+  #preview-wrap { width: 90px; height: 160px; flex-shrink: 0; }
+  canvas#preview { width: 90px; height: 160px; }
+  .drag-tip { font-size: 10px; flex: 1; max-width: 180px; margin-top: 0; }
   .controls-col { padding: 12px 12px 80px; }
+  .site-header { padding: 14px 16px 12px; }
 }
 </style>
 </head>
 <body>
+
+<!-- Header -->
+<div class="site-header">
+  <div class="site-logo">🐾 ペットのもしも待受メイキング</div>
+  <div class="site-desc">
+    このジェネレーターは、ペットの写真でスマホの待受画像を作ります。飼い主の緊急時に、ペットの置き去り死を防ぐための注意事項を、ペットのかわいい写真と一緒に呼びかけます。ぜひ使ってみてください。
+  </div>
+</div>
+
 <div class="layout">
 
-  <!-- Sticky portrait preview -->
+  <!-- Sticky preview -->
   <div class="preview-col">
     <div class="preview-label">プレビュー（9:16）</div>
     <div id="preview-wrap">
       <canvas id="preview" width="1080" height="1920"></canvas>
     </div>
     <div class="drag-tip">
-      <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:4px">
-        <path d="M8 0C7.17 0 6.5 0.67 6.5 1.5V8.09C6.06 7.73 5.56 7.5 5 7.5C3.9 7.5 3 8.4 3 9.5V13C3 16.87 6.13 20 10 20C13.87 20 17 16.87 17 13V9.5C17 8.4 16.1 7.5 15 7.5C14.44 7.5 13.94 7.73 13.5 8.09V5.5C13.5 4.4 12.6 3.5 11.5 3.5C10.94 3.5 10.44 3.73 10 4.09V1.5C10 0.67 9.33 0 8.5 0H8Z" fill="#b07080" opacity="0.7" transform="scale(0.88)"/>
+      <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 0C6.17 0 5.5 0.67 5.5 1.5V7.2C5.1 6.88 4.58 6.67 4 6.67C2.9 6.67 2 7.56 2 8.67V12C2 15.31 4.69 18 8 18C11.31 18 14 15.31 14 12V8.67C14 7.56 13.1 6.67 12 6.67C11.42 6.67 10.9 6.88 10.5 7.2V4.5C10.5 3.4 9.6 2.5 8.5 2.5C7.96 2.5 7.46 2.72 7.1 3.08C6.86 1.36 5.47 0 4 0" fill="#cd5c5c" opacity="0.6"/>
       </svg>
       テキストは指で動かせます
     </div>
@@ -208,13 +205,11 @@ input[type=range] { flex: 1; accent-color: #b07080; }
 
   <!-- Controls -->
   <div class="controls-col">
-    <p class="col-title">🐾 ペット壁紙ジェネレーター</p>
-    <p class="col-sub" style="color:#a08898">スマホの待受壁紙を作りましょう</p>
 
     <!-- 1: Photo -->
     <div class="step">
       <div class="step-title"><span class="step-num">1</span>写真</div>
-      <label class="upload-btn" id="upload-label" onclick="openCropModal()">📷 写真を選択してトリミング</label>
+      <label class="upload-btn" onclick="openCropModal()">📷 あなたのペットの写真を選択してください</label>
       <input type="file" accept="image/*" id="file-input" style="display:none" onchange="onFileSelected(event)" />
     </div>
 
@@ -223,6 +218,7 @@ input[type=range] { flex: 1; accent-color: #b07080; }
       <div class="step-title"><span class="step-num">2</span>テキスト</div>
       <p class="sec-sub" style="margin-top:0">動物の種類</p>
       <input class="text-input" type="text" id="animal" placeholder="例：ねこ、いぬ、うさぎ" oninput="render()" />
+      <p class="input-note">（空欄だと「ペット」と記載されます）</p>
       <p class="sec-sub">フォント</p>
       <div class="font-row">
         <button class="fbtn active" data-font="'Zen Maru Gothic'" onclick="pickFont(this)" style="font-family:'Zen Maru Gothic'">まるごしっく</button>
@@ -239,12 +235,12 @@ input[type=range] { flex: 1; accent-color: #b07080; }
 
     <!-- 3: Banner style -->
     <div class="step">
-      <div class="step-title"><span class="step-num">3</span>バナー文字スタイル</div>
+      <div class="step-title"><span class="step-num">3</span>タイトル文字</div>
       <p class="sec-sub" style="margin-top:0">文字色</p>
       <div class="swatches" id="bc">
-        <div class="sw active" style="background:#ffffff;outline:1px solid #ddd;outline-offset:1px" data-c="#ffffff" onclick="pickColor('b',this)"></div>
-        <div class="sw" style="background:#5a4a3a" data-c="#5a4a3a" onclick="pickColor('b',this)"></div>
-        <div class="sw" style="background:#c05040" data-c="#c05040" onclick="pickColor('b',this)"></div>
+        <div class="sw active" style="background:#ffffff;outline:1px solid #eee;outline-offset:1px" data-c="#ffffff" onclick="pickColor('b',this)"></div>
+        <div class="sw" style="background:#5a3844" data-c="#5a3844" onclick="pickColor('b',this)"></div>
+        <div class="sw" style="background:#cd5c5c" data-c="#cd5c5c" onclick="pickColor('b',this)"></div>
         <div class="sw" style="background:#3a5a8a" data-c="#3a5a8a" onclick="pickColor('b',this)"></div>
         <div class="sw" style="background:#3a7a55" data-c="#3a7a55" onclick="pickColor('b',this)"></div>
         <div class="sw" style="background:#8a5a9a" data-c="#8a5a9a" onclick="pickColor('b',this)"></div>
@@ -254,7 +250,7 @@ input[type=range] { flex: 1; accent-color: #b07080; }
       <div class="btn-group">
         <button class="gbtn active" data-v="none" onclick="pickStroke('b',this)">なし</button>
         <button class="gbtn" data-v="white" onclick="pickStroke('b',this)">白縁</button>
-        <button class="gbtn" data-v="black" onclick="pickStroke('b',this)">黒縁</button>
+        <button class="gbtn" data-v="brown" onclick="pickStroke('b',this)">ブラウン縁</button>
       </div>
       <div class="slider-row" id="b-sw-row" style="display:none">
         <span class="sl-lbl">縁の太さ</span>
@@ -265,12 +261,12 @@ input[type=range] { flex: 1; accent-color: #b07080; }
 
     <!-- 4: Message style -->
     <div class="step">
-      <div class="step-title"><span class="step-num">4</span>メッセージ文字スタイル</div>
+      <div class="step-title"><span class="step-num">4</span>依頼テキスト</div>
       <p class="sec-sub" style="margin-top:0">文字色</p>
       <div class="swatches" id="mc">
-        <div class="sw active" style="background:#ffffff;outline:1px solid #ddd;outline-offset:1px" data-c="#ffffff" onclick="pickColor('m',this)"></div>
-        <div class="sw" style="background:#5a4a3a" data-c="#5a4a3a" onclick="pickColor('m',this)"></div>
-        <div class="sw" style="background:#c05040" data-c="#c05040" onclick="pickColor('m',this)"></div>
+        <div class="sw active" style="background:#ffffff;outline:1px solid #eee;outline-offset:1px" data-c="#ffffff" onclick="pickColor('m',this)"></div>
+        <div class="sw" style="background:#5a3844" data-c="#5a3844" onclick="pickColor('m',this)"></div>
+        <div class="sw" style="background:#cd5c5c" data-c="#cd5c5c" onclick="pickColor('m',this)"></div>
         <div class="sw" style="background:#3a5a8a" data-c="#3a5a8a" onclick="pickColor('m',this)"></div>
         <div class="sw" style="background:#3a7a55" data-c="#3a7a55" onclick="pickColor('m',this)"></div>
         <div class="sw" style="background:#8a5a9a" data-c="#8a5a9a" onclick="pickColor('m',this)"></div>
@@ -280,7 +276,7 @@ input[type=range] { flex: 1; accent-color: #b07080; }
       <div class="btn-group">
         <button class="gbtn active" data-v="none" onclick="pickStroke('m',this)">なし</button>
         <button class="gbtn" data-v="white" onclick="pickStroke('m',this)">白縁</button>
-        <button class="gbtn" data-v="black" onclick="pickStroke('m',this)">黒縁</button>
+        <button class="gbtn" data-v="brown" onclick="pickStroke('m',this)">ブラウン縁</button>
       </div>
       <div class="slider-row" id="m-sw-row" style="display:none">
         <span class="sl-lbl">縁の太さ</span>
@@ -293,12 +289,12 @@ input[type=range] { flex: 1; accent-color: #b07080; }
     <div class="step">
       <div class="step-title"><span class="step-num">5</span>装飾</div>
       <div class="tog-row">
-        <span style="font-size:12px;color:#3d3530">星・ガーランドを表示</span>
+        <span style="font-size:12px;color:#5a3844">星・ガーランドを表示</span>
         <label class="tog-wrap"><input type="checkbox" id="deco" checked onchange="render()" /><span class="tog-track"></span></label>
       </div>
     </div>
 
-    <button class="dl-btn" id="dl-btn" onclick="dlWallpaper()" disabled>壁紙をダウンロード（PNG）</button>
+    <button class="dl-btn" id="dl-btn" onclick="saveWallpaper()" disabled>🐾 待受を保存する</button>
   </div>
 </div>
 
@@ -306,19 +302,30 @@ input[type=range] { flex: 1; accent-color: #b07080; }
 <div class="modal-bg" id="modal-bg">
   <div class="modal">
     <div class="modal-title">📐 写真をトリミング</div>
-    <div class="crop-box" id="crop-box">
-      <img id="crop-img" />
-    </div>
+    <div class="crop-box" id="crop-box"><img id="crop-img" /></div>
     <div class="crop-slider-row">
       <span class="sl-lbl">サイズ</span>
       <input type="range" id="crop-zoom" min="0.3" max="4" step="0.01" value="1" oninput="onCropZoom()" />
       <span class="sl-val" id="crop-zoom-v">100%</span>
     </div>
-    <p style="font-size:11px;color:#9a9188;margin-bottom:10px;text-align:center">ドラッグして位置を調整</p>
+    <p style="font-size:11px;color:#b09098;margin-bottom:10px;text-align:center">ドラッグして位置を調整</p>
     <div class="modal-btns">
       <button class="modal-btn" onclick="closeModal()">キャンセル</button>
       <button class="modal-btn primary" onclick="confirmCrop()">決定</button>
     </div>
+  </div>
+</div>
+
+<!-- Save Modal -->
+<div class="save-modal-bg" id="save-modal-bg">
+  <div class="save-modal">
+    <div class="save-modal-title">🎉 保存しました！</div>
+    <div class="save-modal-body" id="save-modal-body">
+      下のボタンから画像を長押し保存するか、ダウンロードしてください。
+    </div>
+    <img class="save-img-preview" id="save-img-preview" />
+    <a class="save-btn" id="save-dl-link" download="pet-wallpaper.png">📥 画像をダウンロード</a>
+    <button class="save-close" onclick="closeSaveModal()">閉じる</button>
   </div>
 </div>
 
@@ -378,9 +385,7 @@ function onTMove(cx, cy) {
 function clampV(v,mn,mx){ return Math.max(mn,Math.min(mx,v)); }
 
 // ---- File / Crop ----
-function openCropModal() {
-  document.getElementById('file-input').click();
-}
+function openCropModal() { document.getElementById('file-input').click(); }
 function onFileSelected(e) {
   const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
@@ -395,7 +400,7 @@ function onFileSelected(e) {
       zEl.min = baseZoom*0.5; zEl.max = baseZoom*3.5; zEl.value = zoom;
       document.getElementById('crop-zoom-v').textContent = '100%';
       document.getElementById('modal-bg').classList.add('open');
-      requestAnimationFrame(() => requestAnimationFrame(() => updateCropImg()));
+      requestAnimationFrame(() => requestAnimationFrame(updateCropImg));
     };
     i.src = ev.target.result;
   };
@@ -416,14 +421,9 @@ function clamp() {
   imgX=Math.min(0,Math.max(CW-img.width*zoom,imgX));
   imgY=Math.min(0,Math.max(CH-img.height*zoom,imgY));
 }
-function getCropScale() {
-  const r = cropBox.getBoundingClientRect();
-  // aspect-ratio: 9/16 is enforced by CSS, so width/CW == height/CH
-  return r.width / CW;
-}
 function updateCropImg() {
   if(!img) return;
-  const s = getCropScale();
+  const s = cropBox.getBoundingClientRect().width / CW;
   const el = document.getElementById('crop-img');
   el.src = img.src;
   el.style.width = (img.width*zoom*s)+'px';
@@ -463,6 +463,19 @@ function pickStroke(t, btn) {
   render();
 }
 
+// ---- Save (iOS compatible) ----
+function saveWallpaper() {
+  const cv = document.getElementById('preview');
+  const dataUrl = cv.toDataURL('image/png');
+  // Show save modal with image preview
+  document.getElementById('save-img-preview').src = dataUrl;
+  document.getElementById('save-dl-link').href = dataUrl;
+  document.getElementById('save-modal-bg').classList.add('open');
+}
+function closeSaveModal() {
+  document.getElementById('save-modal-bg').classList.remove('open');
+}
+
 // ---- Render ----
 function render() {
   const cv = document.getElementById('preview');
@@ -472,8 +485,8 @@ function render() {
   if(img) {
     ctx.drawImage(img, imgX, imgY, img.width*zoom, img.height*zoom);
   } else {
-    ctx.fillStyle='#c8c4be'; ctx.fillRect(0,0,CW,CH);
-    ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.font='bold 40px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle='#e8d8da'; ctx.fillRect(0,0,CW,CH);
+    ctx.fillStyle='rgba(90,40,50,0.3)'; ctx.font='bold 40px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText('写真を選択してください', CW/2, CH/2);
   }
 
@@ -500,6 +513,12 @@ function star(ctx,cx,cy,sz,c) {
   ctx.closePath(); ctx.fill(); ctx.restore();
 }
 
+function strokeColor(type) {
+  if(type==='white') return '#ffffff';
+  if(type==='brown') return '#5a3844';
+  return '#000';
+}
+
 function arcText(ctx, text, cx, cy, radius, fnt, color, stroke, sw) {
   ctx.save(); ctx.font=fnt; ctx.textAlign='center'; ctx.textBaseline='middle';
   const chars=[...text];
@@ -512,7 +531,7 @@ function arcText(ctx, text, cx, cy, radius, fnt, color, stroke, sw) {
     ctx.save();
     ctx.translate(cx+Math.sin(ca)*radius, cy-Math.cos(ca)*radius);
     ctx.rotate(ca);
-    if(stroke!=='none'){ ctx.strokeStyle=stroke==='white'?'#fff':'#000'; ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(ch,0,0); }
+    if(stroke!=='none'){ ctx.strokeStyle=strokeColor(stroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(ch,0,0); }
     ctx.fillStyle=color; ctx.fillText(ch,0,0);
     ctx.restore();
     a+=cw/Math.abs(radius);
@@ -524,21 +543,51 @@ function drawBanner(ctx) {
   const animal = document.getElementById('animal').value.trim()||'ペット';
   const curveVal = parseInt(document.getElementById('curve').value);
   const sw = parseInt(document.getElementById('b-sw').value);
-  // Scale font size so text fits within CW with margin
-  const fnt = `700 60px ${font}, 'Hiragino Sans', sans-serif`;
-  ctx.font = fnt;
-  const text = `＼ 家に大切な${animal}がいます ／`;
-  const tw = ctx.measureText(text).width;
   const maxW = CW - 80;
-  const fs = tw > maxW ? Math.floor(60 * maxW / tw) : 60;
-  const finalFont = `700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`;
+
+  // 「家に大切な」と「がいます」は標準サイズ、動物名だけ大きく
+  const baseFs = 56;
+  const animalFs = 76;
+
+  const prefixFont = `700 ${baseFs}px ${font}, 'Hiragino Sans', sans-serif`;
+  const animalFont = `700 ${animalFs}px ${font}, 'Hiragino Sans', sans-serif`;
+  const suffixFont = `700 ${baseFs}px ${font}, 'Hiragino Sans', sans-serif`;
+
+  const prefix = '家に大切な';
+  const suffix = 'がいます';
+
+  ctx.font = prefixFont; const pW = ctx.measureText(prefix).width;
+  ctx.font = animalFont; const aW = ctx.measureText(animal).width;
+  ctx.font = suffixFont; const sW = ctx.measureText(suffix).width;
+  const totalW = pW + aW + sW;
+  const scale = totalW > maxW ? maxW / totalW : 1;
+
+  const finalBaseFs = Math.floor(baseFs * scale);
+  const finalAnimalFs = Math.floor(animalFs * scale);
 
   if(Math.abs(curveVal) < 20){
-    ctx.save(); ctx.font=finalFont; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
-    if(bStroke!=='none'){ ctx.strokeStyle=bStroke==='white'?'#fff':'#000'; ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(text,bannerPos.x,bannerPos.y); }
-    ctx.fillStyle=bColor; ctx.fillText(text,bannerPos.x,bannerPos.y); ctx.restore();
+    // Straight — draw each segment separately
+    ctx.save();
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    let x = bannerPos.x - (pW + aW + sW) * scale / 2;
+    const y = bannerPos.y;
+
+    const drawSegment = (text, fs, color, stroke) => {
+      const f = `700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`;
+      ctx.font = f;
+      if(stroke!=='none'){ ctx.strokeStyle=strokeColor(stroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(text,x,y); }
+      ctx.fillStyle=color; ctx.fillText(text,x,y);
+      x += ctx.measureText(text).width;
+    };
+    drawSegment(prefix, finalBaseFs, bColor, bStroke);
+    drawSegment(animal, finalAnimalFs, bColor, bStroke);
+    drawSegment(suffix, finalBaseFs, bColor, bStroke);
+    ctx.restore();
   } else {
-    arcText(ctx,text,bannerPos.x,bannerPos.y,curveVal,finalFont,bColor,bStroke,sw);
+    // Arc — combine as one string with uniform font for simplicity
+    const fs = Math.floor(60 * scale);
+    const fnt = `700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`;
+    arcText(ctx, prefix+animal+suffix, bannerPos.x, bannerPos.y, curveVal, fnt, bColor, bStroke, sw);
   }
 }
 
@@ -546,7 +595,6 @@ function drawMsg(ctx) {
   const animal = document.getElementById('animal').value.trim()||'ペット';
   const msgs = [`${animal}が私の帰りを待っています`,'私にもしものことがあったら','気にかけてもらえたら幸いです'];
   const sw = parseInt(document.getElementById('m-sw').value);
-  // Auto-fit font size
   ctx.font = `700 46px ${font}, 'Hiragino Sans', sans-serif`;
   const maxLineW = msgs.reduce((m,s)=>Math.max(m,ctx.measureText(s).width),0);
   const maxW = CW - 80;
@@ -557,19 +605,11 @@ function drawMsg(ctx) {
   ctx.save(); ctx.font=finalFont; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   msgs.forEach((m,i)=>{
     const y = msgPos.y - totalH/2 + i*lineH;
-    if(mStroke!=='none'){ ctx.strokeStyle=mStroke==='white'?'#fff':'#000'; ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(m,msgPos.x,y); }
+    if(mStroke!=='none'){ ctx.strokeStyle=strokeColor(mStroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(m,msgPos.x,y); }
     ctx.fillStyle=mColor; ctx.fillText(m,msgPos.x,y);
   });
   ctx.restore();
 }
-
-function dlWallpaper() {
-  const cv=document.getElementById('preview');
-  const a=document.createElement('a'); a.download='pet-wallpaper.png'; a.href=cv.toDataURL('image/png'); a.click();
-}
-
-// Resize crop img when modal opens (getBoundingClientRect needs layout)
-document.getElementById('modal-bg').addEventListener('transitionend', updateCropImg);
 
 render();
 </script>
