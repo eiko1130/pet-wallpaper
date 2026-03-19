@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ペット壁紙ジェネレーター</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Kaisei+Decol:wght@400;700&family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: #f5eff0; font-family: 'Hiragino Sans', sans-serif; }
+
+/* ====== TWO-COLUMN LAYOUT ====== */
+.layout {
+  display: flex;
+  min-height: 100vh;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Left: sticky portrait preview */
+.preview-col {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px 16px 16px;
+  background: #f0e8ec;
+  border-right: 0.5px solid #e2d4d8;
+}
+.preview-label { font-size: 10px; color: #a09098; margin-bottom: 6px; letter-spacing: 0.05em; text-align: center; }
+
+/* Portrait canvas wrapper - 9:16 */
+#preview-wrap {
+  position: relative;
+  width: 180px;
+  height: 320px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  cursor: crosshair;
+  user-select: none;
+  touch-action: none;
+  background: #ccc;
+}
+canvas#preview { display: block; width: 180px; height: 320px; }
+
+.drag-tip {
+  margin-top: 10px;
+  font-size: 10px;
+  color: #a09098;
+  text-align: center;
+  line-height: 1.5;
+  padding: 6px 8px;
+  background: #fff;
+  border-radius: 8px;
+  border: 0.5px solid #e8d4d8;
+}
+
+/* Right: controls */
+.controls-col {
+  flex: 1;
+  padding: 20px 16px 80px;
+  overflow-y: auto;
+}
+
+.col-title { font-size: 16px; font-weight: 500; color: #3a2830; margin-bottom: 4px; }
+.col-sub { font-size: 12px; color: #a09098; margin-bottom: 16px; }
+
+.step { background: #fff; border: 0.5px solid #e8d8dc; border-radius: 14px; padding: 1rem; margin-bottom: 10px; }
+.step-title { font-size: 12px; font-weight: 500; color: #5a3844; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+.step-num { width: 20px; height: 20px; border-radius: 50%; background: #b07080; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sec-sub { font-size: 11px; color: #a08898; margin: 9px 0 5px; }
+
+/* Upload btn */
+.upload-btn { display: block; width: 100%; padding: 10px; border: 1px dashed #dcc8ce; border-radius: 10px; background: transparent; color: #8a7078; font-size: 13px; cursor: pointer; font-family: inherit; text-align: center; }
+.upload-btn:hover { background: #faf8f6; }
+.photo-thumb { width: 100%; height: 80px; object-fit: cover; border-radius: 8px; margin-top: 8px; display: none; }
+
+/* Text input */
+.text-input { width: 100%; padding: 9px 11px; font-size: 13px; border: 0.5px solid #e0dbd5; border-radius: 9px; background: #faf8f6; color: #3a2830; font-family: inherit; }
+.text-input:focus { outline: none; border-color: #b5a99f; }
+.text-input::placeholder { color: #c4bdb6; }
+
+/* Slider */
+.slider-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.sl-lbl { font-size: 11px; color: #a09098; white-space: nowrap; min-width: 46px; }
+.sl-val { font-size: 11px; color: #a09098; min-width: 30px; text-align: right; }
+input[type=range] { flex: 1; accent-color: #b07080; }
+
+/* Color swatches */
+.swatches { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
+.sw { width: 26px; height: 26px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform 0.1s; flex-shrink: 0; }
+.sw:hover { transform: scale(1.1); }
+.sw.active { border-color: #b07080; }
+.sw-custom { width: 26px; height: 26px; border-radius: 50%; border: 1px dashed #c4bdb6; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #c4bdb6; flex-shrink: 0; cursor: pointer; }
+.sw-custom input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+/* Button group */
+.btn-group { display: flex; gap: 5px; margin-top: 5px; }
+.gbtn { flex: 1; padding: 6px 0; border: 0.5px solid #e0dbd5; border-radius: 8px; background: transparent; color: #a09098; font-size: 11px; cursor: pointer; font-family: inherit; transition: all 0.12s; text-align: center; }
+.gbtn:hover { background: #faf8f6; }
+.gbtn.active { background: #b07080; color: #fff; border-color: #b07080; }
+
+/* Font buttons */
+.font-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+.fbtn { padding: 6px 10px; border: 0.5px solid #e0dbd5; border-radius: 14px; background: transparent; color: #5a3844; font-size: 12px; cursor: pointer; transition: all 0.12s; }
+.fbtn:hover { background: #faf8f6; }
+.fbtn.active { background: #b07080; color: #fff; border-color: #b07080; }
+
+/* Toggle */
+.tog-row { display: flex; align-items: center; justify-content: space-between; }
+.tog-wrap { position: relative; width: 40px; height: 22px; }
+.tog-wrap input { opacity: 0; width: 0; height: 0; }
+.tog-track { position: absolute; inset: 0; background: #e8d4d8; border-radius: 11px; cursor: pointer; transition: background 0.2s; }
+.tog-track:before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform 0.2s; }
+.tog-wrap input:checked + .tog-track { background: #b07080; }
+.tog-wrap input:checked + .tog-track:before { transform: translateX(18px); }
+
+/* Download */
+.dl-btn { width: 100%; padding: 13px; background: #b07080; color: #fff; border: none; border-radius: 12px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; margin-top: 4px; }
+.dl-btn:hover { opacity: 0.82; }
+.dl-btn:disabled { opacity: 0.3; cursor: default; }
+
+/* ====== CROP MODAL ====== */
+.modal-bg {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(60,20,30,0.5);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px;
+  width: min(360px, 92vw);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.modal-title { font-size: 15px; font-weight: 500; color: #3a2830; margin-bottom: 12px; }
+.crop-box {
+  position: relative;
+  width: 60%;
+  margin: 0 auto;
+  aspect-ratio: 9/16;
+  background: #f0e8ec;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  flex-shrink: 0;
+}
+.crop-box.dragging { cursor: grabbing; }
+.crop-box img { position: absolute; transform-origin: 0 0; pointer-events: none; }
+.crop-slider-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
+.modal-btns { display: flex; gap: 8px; }
+.modal-btn { flex: 1; padding: 11px; border: 0.5px solid #e0dbd5; border-radius: 10px; background: transparent; color: #8a7078; font-size: 13px; cursor: pointer; font-family: inherit; }
+.modal-btn.primary { background: #b07080; color: #fff; border-color: #b07080; }
+.modal-btn:hover { opacity: 0.82; }
+
+/* Mobile: stack layout */
+@media (max-width: 540px) {
+  .layout { flex-direction: column; }
+  .preview-col {
+    width: 100%;
+    height: auto;
+    position: sticky;
+    top: 0;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 16px;
+    z-index: 5;
+  }
+  #preview-wrap { width: 100px; height: 178px; flex-shrink: 0; }
+  canvas#preview { width: 100px; height: 178px; }
+  .drag-tip { font-size: 10px; flex: 1; max-width: 200px; margin-top: 0; }
+  .controls-col { padding: 12px 12px 80px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- Sticky portrait preview -->
+  <div class="preview-col">
+    <div class="preview-label">プレビュー（9:16）</div>
+    <div id="preview-wrap">
+      <canvas id="preview" width="1080" height="1920"></canvas>
+    </div>
+    <div class="drag-tip">
+      <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:4px">
+        <path d="M8 0C7.17 0 6.5 0.67 6.5 1.5V8.09C6.06 7.73 5.56 7.5 5 7.5C3.9 7.5 3 8.4 3 9.5V13C3 16.87 6.13 20 10 20C13.87 20 17 16.87 17 13V9.5C17 8.4 16.1 7.5 15 7.5C14.44 7.5 13.94 7.73 13.5 8.09V5.5C13.5 4.4 12.6 3.5 11.5 3.5C10.94 3.5 10.44 3.73 10 4.09V1.5C10 0.67 9.33 0 8.5 0H8Z" fill="#b07080" opacity="0.7" transform="scale(0.88)"/>
+      </svg>
+      テキストは指で動かせます
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-col">
+    <p class="col-title">🐾 ペット壁紙ジェネレーター</p>
+    <p class="col-sub" style="color:#a08898">スマホの待受壁紙を作りましょう</p>
+
+    <!-- 1: Photo -->
+    <div class="step">
+      <div class="step-title"><span class="step-num">1</span>写真</div>
+      <label class="upload-btn" id="upload-label" onclick="openCropModal()">📷 写真を選択してトリミング</label>
+      <input type="file" accept="image/*" id="file-input" style="display:none" onchange="onFileSelected(event)" />
+    </div>
+
+    <!-- 2: Text -->
+    <div class="step">
+      <div class="step-title"><span class="step-num">2</span>テキスト</div>
+      <p class="sec-sub" style="margin-top:0">動物の種類</p>
+      <input class="text-input" type="text" id="animal" placeholder="例：ねこ、いぬ、うさぎ" oninput="render()" />
+      <p class="sec-sub">フォント</p>
+      <div class="font-row">
+        <button class="fbtn active" data-font="'Zen Maru Gothic'" onclick="pickFont(this)" style="font-family:'Zen Maru Gothic'">まるごしっく</button>
+        <button class="fbtn" data-font="'Kaisei Decol'" onclick="pickFont(this)" style="font-family:'Kaisei Decol'">明朝デコル</button>
+        <button class="fbtn" data-font="'DotGothic16'" onclick="pickFont(this)" style="font-family:'DotGothic16'">ドットゴシック</button>
+      </div>
+      <p class="sec-sub">バナーの湾曲</p>
+      <div class="slider-row">
+        <span class="sl-lbl">カーブ</span>
+        <input type="range" id="curve" min="-900" max="900" step="10" value="500" oninput="syncV('curve','curve-v');render()" />
+        <span class="sl-val" id="curve-v">500</span>
+      </div>
+    </div>
+
+    <!-- 3: Banner style -->
+    <div class="step">
+      <div class="step-title"><span class="step-num">3</span>バナー文字スタイル</div>
+      <p class="sec-sub" style="margin-top:0">文字色</p>
+      <div class="swatches" id="bc">
+        <div class="sw active" style="background:#ffffff;outline:1px solid #ddd;outline-offset:1px" data-c="#ffffff" onclick="pickColor('b',this)"></div>
+        <div class="sw" style="background:#5a4a3a" data-c="#5a4a3a" onclick="pickColor('b',this)"></div>
+        <div class="sw" style="background:#c05040" data-c="#c05040" onclick="pickColor('b',this)"></div>
+        <div class="sw" style="background:#3a5a8a" data-c="#3a5a8a" onclick="pickColor('b',this)"></div>
+        <div class="sw" style="background:#3a7a55" data-c="#3a7a55" onclick="pickColor('b',this)"></div>
+        <div class="sw" style="background:#8a5a9a" data-c="#8a5a9a" onclick="pickColor('b',this)"></div>
+        <div class="sw-custom">＋<input type="color" value="#ffffff" oninput="customC('b',this)" /></div>
+      </div>
+      <p class="sec-sub">縁取り</p>
+      <div class="btn-group">
+        <button class="gbtn active" data-v="none" onclick="pickStroke('b',this)">なし</button>
+        <button class="gbtn" data-v="white" onclick="pickStroke('b',this)">白縁</button>
+        <button class="gbtn" data-v="black" onclick="pickStroke('b',this)">黒縁</button>
+      </div>
+      <div class="slider-row" id="b-sw-row" style="display:none">
+        <span class="sl-lbl">縁の太さ</span>
+        <input type="range" id="b-sw" min="1" max="20" step="1" value="6" oninput="syncV('b-sw','b-sw-v');render()" />
+        <span class="sl-val" id="b-sw-v">6</span>
+      </div>
+    </div>
+
+    <!-- 4: Message style -->
+    <div class="step">
+      <div class="step-title"><span class="step-num">4</span>メッセージ文字スタイル</div>
+      <p class="sec-sub" style="margin-top:0">文字色</p>
+      <div class="swatches" id="mc">
+        <div class="sw active" style="background:#ffffff;outline:1px solid #ddd;outline-offset:1px" data-c="#ffffff" onclick="pickColor('m',this)"></div>
+        <div class="sw" style="background:#5a4a3a" data-c="#5a4a3a" onclick="pickColor('m',this)"></div>
+        <div class="sw" style="background:#c05040" data-c="#c05040" onclick="pickColor('m',this)"></div>
+        <div class="sw" style="background:#3a5a8a" data-c="#3a5a8a" onclick="pickColor('m',this)"></div>
+        <div class="sw" style="background:#3a7a55" data-c="#3a7a55" onclick="pickColor('m',this)"></div>
+        <div class="sw" style="background:#8a5a9a" data-c="#8a5a9a" onclick="pickColor('m',this)"></div>
+        <div class="sw-custom">＋<input type="color" value="#ffffff" oninput="customC('m',this)" /></div>
+      </div>
+      <p class="sec-sub">縁取り</p>
+      <div class="btn-group">
+        <button class="gbtn active" data-v="none" onclick="pickStroke('m',this)">なし</button>
+        <button class="gbtn" data-v="white" onclick="pickStroke('m',this)">白縁</button>
+        <button class="gbtn" data-v="black" onclick="pickStroke('m',this)">黒縁</button>
+      </div>
+      <div class="slider-row" id="m-sw-row" style="display:none">
+        <span class="sl-lbl">縁の太さ</span>
+        <input type="range" id="m-sw" min="1" max="20" step="1" value="6" oninput="syncV('m-sw','m-sw-v');render()" />
+        <span class="sl-val" id="m-sw-v">6</span>
+      </div>
+    </div>
+
+    <!-- 5: Deco -->
+    <div class="step">
+      <div class="step-title"><span class="step-num">5</span>装飾</div>
+      <div class="tog-row">
+        <span style="font-size:12px;color:#3d3530">星・ガーランドを表示</span>
+        <label class="tog-wrap"><input type="checkbox" id="deco" checked onchange="render()" /><span class="tog-track"></span></label>
+      </div>
+    </div>
+
+    <button class="dl-btn" id="dl-btn" onclick="dlWallpaper()" disabled>壁紙をダウンロード（PNG）</button>
+  </div>
+</div>
+
+<!-- Crop Modal -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <div class="modal-title">📐 写真をトリミング</div>
+    <div class="crop-box" id="crop-box">
+      <img id="crop-img" />
+    </div>
+    <div class="crop-slider-row">
+      <span class="sl-lbl">サイズ</span>
+      <input type="range" id="crop-zoom" min="0.3" max="4" step="0.01" value="1" oninput="onCropZoom()" />
+      <span class="sl-val" id="crop-zoom-v">100%</span>
+    </div>
+    <p style="font-size:11px;color:#9a9188;margin-bottom:10px;text-align:center">ドラッグして位置を調整</p>
+    <div class="modal-btns">
+      <button class="modal-btn" onclick="closeModal()">キャンセル</button>
+      <button class="modal-btn primary" onclick="confirmCrop()">決定</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CW = 1080, CH = 1920;
+let img = null, zoom = 1, baseZoom = 1, imgX = 0, imgY = 0;
+let bannerPos = { x: CW/2, y: CH*0.40 };
+let msgPos    = { x: CW/2, y: CH*0.78 };
+let bColor = '#ffffff', mColor = '#ffffff';
+let bStroke = 'none', mStroke = 'none';
+let font = "'Zen Maru Gothic'";
+
+// ---- Crop modal drag ----
+const cropBox = document.getElementById('crop-box');
+let cDrag = false, cLX = 0, cLY = 0;
+cropBox.addEventListener('mousedown', e => { cDrag=true; cLX=e.clientX; cLY=e.clientY; cropBox.classList.add('dragging'); });
+cropBox.addEventListener('touchstart', e => { const t=e.touches[0]; cDrag=true; cLX=t.clientX; cLY=t.clientY; }, {passive:true});
+document.addEventListener('mousemove', e => { if(!cDrag||!img) return; moveCrop(e.clientX-cLX, e.clientY-cLY); cLX=e.clientX; cLY=e.clientY; });
+document.addEventListener('touchmove', e => { if(!cDrag||!img) return; const t=e.touches[0]; moveCrop(t.clientX-cLX, t.clientY-cLY); cLX=t.clientX; cLY=t.clientY; }, {passive:true});
+document.addEventListener('mouseup', ()=>{ cDrag=false; cropBox.classList.remove('dragging'); });
+document.addEventListener('touchend', ()=>{ cDrag=false; });
+
+function moveCrop(dx, dy) {
+  const s = CW / cropBox.getBoundingClientRect().width;
+  imgX += dx*s; imgY += dy*s; clamp(); requestAnimationFrame(updateCropImg);
+}
+
+// ---- Preview text drag ----
+const pw = document.getElementById('preview-wrap');
+let tDrag = null, tLX = 0, tLY = 0;
+pw.addEventListener('mousedown', e => startTDrag(e.clientX, e.clientY));
+pw.addEventListener('touchstart', e => { e.preventDefault(); const t=e.touches[0]; startTDrag(t.clientX, t.clientY); }, {passive:false});
+document.addEventListener('mousemove', e => onTMove(e.clientX, e.clientY));
+document.addEventListener('touchmove', e => { if(!tDrag) return; e.preventDefault(); const t=e.touches[0]; onTMove(t.clientX, t.clientY); }, {passive:false});
+document.addEventListener('mouseup', ()=>tDrag=null);
+document.addEventListener('touchend', ()=>tDrag=null);
+
+function toCanvas(cx, cy) {
+  const r = pw.getBoundingClientRect();
+  return [(cx-r.left)*CW/r.width, (cy-r.top)*CH/r.height];
+}
+function startTDrag(cx, cy) {
+  const [x, y] = toCanvas(cx, cy);
+  if (Math.abs(x-bannerPos.x)<520 && Math.abs(y-bannerPos.y)<140) tDrag='b';
+  else if (Math.abs(x-msgPos.x)<500 && Math.abs(y-msgPos.y)<220) tDrag='m';
+  tLX=cx; tLY=cy;
+}
+function onTMove(cx, cy) {
+  if (!tDrag) return;
+  const dx=cx-tLX, dy=cy-tLY; tLX=cx; tLY=cy;
+  const r=pw.getBoundingClientRect();
+  const sx=CW/r.width, sy=CH/r.height;
+  if (tDrag==='b') { bannerPos.x=clampV(bannerPos.x+dx*sx,100,CW-100); bannerPos.y=clampV(bannerPos.y+dy*sy,60,CH-60); }
+  else { msgPos.x=clampV(msgPos.x+dx*sx,100,CW-100); msgPos.y=clampV(msgPos.y+dy*sy,60,CH-60); }
+  render();
+}
+function clampV(v,mn,mx){ return Math.max(mn,Math.min(mx,v)); }
+
+// ---- File / Crop ----
+function openCropModal() {
+  document.getElementById('file-input').click();
+}
+function onFileSelected(e) {
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const i = new Image();
+    i.onload = () => {
+      img = i;
+      baseZoom = Math.max(CW/img.width, CH/img.height);
+      zoom = baseZoom;
+      imgX = (CW-img.width*zoom)/2; imgY = (CH-img.height*zoom)/2;
+      const zEl = document.getElementById('crop-zoom');
+      zEl.min = baseZoom*0.5; zEl.max = baseZoom*3.5; zEl.value = zoom;
+      document.getElementById('crop-zoom-v').textContent = '100%';
+      document.getElementById('modal-bg').classList.add('open');
+      requestAnimationFrame(() => requestAnimationFrame(() => updateCropImg()));
+    };
+    i.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+function onCropZoom() {
+  if(!img) return;
+  const prev = zoom;
+  zoom = parseFloat(document.getElementById('crop-zoom').value);
+  document.getElementById('crop-zoom-v').textContent = Math.round(zoom/baseZoom*100)+'%';
+  imgX = CW/2-(CW/2-imgX)*(zoom/prev);
+  imgY = CH/2-(CH/2-imgY)*(zoom/prev);
+  clamp(); requestAnimationFrame(updateCropImg);
+}
+function clamp() {
+  if(!img) return;
+  imgX=Math.min(0,Math.max(CW-img.width*zoom,imgX));
+  imgY=Math.min(0,Math.max(CH-img.height*zoom,imgY));
+}
+function getCropScale() {
+  const r = cropBox.getBoundingClientRect();
+  // aspect-ratio: 9/16 is enforced by CSS, so width/CW == height/CH
+  return r.width / CW;
+}
+function updateCropImg() {
+  if(!img) return;
+  const s = getCropScale();
+  const el = document.getElementById('crop-img');
+  el.src = img.src;
+  el.style.width = (img.width*zoom*s)+'px';
+  el.style.left = (imgX*s)+'px';
+  el.style.top = (imgY*s)+'px';
+}
+function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+function confirmCrop() {
+  closeModal();
+  document.getElementById('dl-btn').disabled = false;
+  render();
+}
+
+// ---- Controls ----
+function syncV(id, vid) { document.getElementById(vid).textContent = document.getElementById(id).value; }
+function pickFont(btn) {
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); font = btn.dataset.font; render();
+}
+function pickColor(t, el) {
+  document.querySelectorAll(`#${t==='b'?'bc':'mc'} .sw`).forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  if(t==='b') bColor=el.dataset.c; else mColor=el.dataset.c;
+  render();
+}
+function customC(t, input) {
+  if(t==='b'){ bColor=input.value; document.querySelectorAll('#bc .sw').forEach(s=>s.classList.remove('active')); }
+  else { mColor=input.value; document.querySelectorAll('#mc .sw').forEach(s=>s.classList.remove('active')); }
+  render();
+}
+function pickStroke(t, btn) {
+  btn.closest('.btn-group').querySelectorAll('.gbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const v=btn.dataset.v;
+  if(t==='b'){ bStroke=v; document.getElementById('b-sw-row').style.display=v==='none'?'none':'flex'; }
+  else { mStroke=v; document.getElementById('m-sw-row').style.display=v==='none'?'none':'flex'; }
+  render();
+}
+
+// ---- Render ----
+function render() {
+  const cv = document.getElementById('preview');
+  const ctx = cv.getContext('2d');
+  ctx.clearRect(0,0,CW,CH);
+
+  if(img) {
+    ctx.drawImage(img, imgX, imgY, img.width*zoom, img.height*zoom);
+  } else {
+    ctx.fillStyle='#c8c4be'; ctx.fillRect(0,0,CW,CH);
+    ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.font='bold 40px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('写真を選択してください', CW/2, CH/2);
+  }
+
+  if(document.getElementById('deco').checked) drawDeco(ctx);
+  drawBanner(ctx);
+  drawMsg(ctx);
+}
+
+function drawDeco(ctx) {
+  const gold='rgba(190,150,38,0.82)';
+  ctx.save(); ctx.strokeStyle=gold; ctx.lineWidth=8;
+  ctx.beginPath(); ctx.moveTo(0,155); ctx.bezierCurveTo(CW*.22,275,CW*.52,90,CW*.76,250); ctx.bezierCurveTo(CW*.88,310,CW,195,CW,175); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(CW*.08,68); ctx.bezierCurveTo(CW*.32,192,CW*.58,55,CW*.88,162); ctx.stroke();
+  ctx.restore();
+  [[105,192,88],[CW-125,228,94],[CW*.5,82,64],[52,368,52],[CW-72,405,60]].forEach(([x,y,s])=>star(ctx,x,y,s,gold));
+  [[75,CH-108,42],[185,CH-50,56],[325,CH-92,46],[470,CH-40,64],[592,CH-122,38],[710,CH-58,50],[850,CH-80,60],[970,CH-128,44],[132,CH-192,33],[430,CH-172,46],[742,CH-158,40],[930,CH-210,35]].forEach(([x,y,r])=>{
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fillStyle=gold; ctx.fill();
+  });
+  [[CW*.28,98],[CW*.54,170],[CW*.70,112],[CW*.18,218]].forEach(([x,y])=>{ ctx.beginPath(); ctx.arc(x,y,17,0,Math.PI*2); ctx.fillStyle=gold; ctx.fill(); });
+}
+function star(ctx,cx,cy,sz,c) {
+  ctx.save(); ctx.translate(cx,cy); ctx.fillStyle=c; ctx.beginPath();
+  for(let i=0;i<5;i++){const a=i*4*Math.PI/5-Math.PI/2; i===0?ctx.moveTo(Math.cos(a)*sz,Math.sin(a)*sz):ctx.lineTo(Math.cos(a)*sz,Math.sin(a)*sz);}
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+
+function arcText(ctx, text, cx, cy, radius, fnt, color, stroke, sw) {
+  ctx.save(); ctx.font=fnt; ctx.textAlign='center'; ctx.textBaseline='middle';
+  const chars=[...text];
+  const totalW = chars.reduce((s,c)=>s+ctx.measureText(c).width,0);
+  const span = totalW/Math.abs(radius);
+  let a = -span/2;
+  for(const ch of chars){
+    const cw=ctx.measureText(ch).width;
+    const ca=a+cw/(2*Math.abs(radius));
+    ctx.save();
+    ctx.translate(cx+Math.sin(ca)*radius, cy-Math.cos(ca)*radius);
+    ctx.rotate(ca);
+    if(stroke!=='none'){ ctx.strokeStyle=stroke==='white'?'#fff':'#000'; ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(ch,0,0); }
+    ctx.fillStyle=color; ctx.fillText(ch,0,0);
+    ctx.restore();
+    a+=cw/Math.abs(radius);
+  }
+  ctx.restore();
+}
+
+function drawBanner(ctx) {
+  const animal = document.getElementById('animal').value.trim()||'ペット';
+  const curveVal = parseInt(document.getElementById('curve').value);
+  const sw = parseInt(document.getElementById('b-sw').value);
+  // Scale font size so text fits within CW with margin
+  const fnt = `700 60px ${font}, 'Hiragino Sans', sans-serif`;
+  ctx.font = fnt;
+  const text = `＼ 家に大切な${animal}がいます ／`;
+  const tw = ctx.measureText(text).width;
+  const maxW = CW - 80;
+  const fs = tw > maxW ? Math.floor(60 * maxW / tw) : 60;
+  const finalFont = `700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`;
+
+  if(Math.abs(curveVal) < 20){
+    ctx.save(); ctx.font=finalFont; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+    if(bStroke!=='none'){ ctx.strokeStyle=bStroke==='white'?'#fff':'#000'; ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(text,bannerPos.x,bannerPos.y); }
+    ctx.fillStyle=bColor; ctx.fillText(text,bannerPos.x,bannerPos.y); ctx.restore();
+  } else {
+    arcText(ctx,text,bannerPos.x,bannerPos.y,curveVal,finalFont,bColor,bStroke,sw);
+  }
+}
+
+function drawMsg(ctx) {
+  const animal = document.getElementById('animal').value.trim()||'ペット';
+  const msgs = [`${animal}が私の帰りを待っています`,'私にもしものことがあったら','気にかけてもらえたら幸いです'];
+  const sw = parseInt(document.getElementById('m-sw').value);
+  // Auto-fit font size
+  ctx.font = `700 46px ${font}, 'Hiragino Sans', sans-serif`;
+  const maxLineW = msgs.reduce((m,s)=>Math.max(m,ctx.measureText(s).width),0);
+  const maxW = CW - 80;
+  const fs = maxLineW > maxW ? Math.floor(46 * maxW / maxLineW) : 46;
+  const finalFont = `700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`;
+  const lineH = fs * 1.75;
+  const totalH = (msgs.length-1)*lineH;
+  ctx.save(); ctx.font=finalFont; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  msgs.forEach((m,i)=>{
+    const y = msgPos.y - totalH/2 + i*lineH;
+    if(mStroke!=='none'){ ctx.strokeStyle=mStroke==='white'?'#fff':'#000'; ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(m,msgPos.x,y); }
+    ctx.fillStyle=mColor; ctx.fillText(m,msgPos.x,y);
+  });
+  ctx.restore();
+}
+
+function dlWallpaper() {
+  const cv=document.getElementById('preview');
+  const a=document.createElement('a'); a.download='pet-wallpaper.png'; a.href=cv.toDataURL('image/png'); a.click();
+}
+
+// Resize crop img when modal opens (getBoundingClientRect needs layout)
+document.getElementById('modal-bg').addEventListener('transitionend', updateCropImg);
+
+render();
+</script>
+</body>
+</html>
