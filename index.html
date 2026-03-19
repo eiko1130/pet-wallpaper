@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>ペットのもしも待受メイキング</title>
+<meta name="description" content="ペットの写真でスマホの待受画像を作れる無料ジェネレーター。もしもの時にペットを守るための一枚を。">
+<meta property="og:title" content="ペットのもしも待受メイキング">
+<meta property="og:description" content="ペットの写真でスマホの待受画像を作れる無料ジェネレーター。もしもの時にペットを守るための一枚を。">
+<meta property="og:type" content="website">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Kaisei+Decol:wght@400;700&family=Darumadrop+One&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -17,8 +21,8 @@ html, body { background: #fdf5f6; font-family: 'Hiragino Sans', sans-serif; colo
 
 .preview-col { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 8px 16px 16px; background: #f9eff1; border-right: 0.5px solid #f0dde0; }
 .preview-label { font-size: 10px; color: #b09098; margin-bottom: 6px; text-align: center; }
-#preview-wrap { position: relative; width: 180px; height: 320px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(180,80,80,0.15); user-select: none; touch-action: none; background: #e8d8da; cursor: crosshair; }
-canvas#preview { display: block; width: 180px; height: 320px; }
+#preview-wrap { position: relative; width: 162px; height: 351px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(180,80,80,0.15); user-select: none; touch-action: none; background: #e8d8da; cursor: crosshair; }
+canvas#preview { display: block; width: 162px; height: 351px; }
 .drag-tip { margin-top: 10px; font-size: 10px; color: #b09098; text-align: center; line-height: 1.7; padding: 7px 10px; background: #fff; border-radius: 8px; border: 0.5px solid #f0dde0; }
 
 .controls-col { flex: 1; padding: 20px 16px 80px; }
@@ -80,7 +84,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 .modal-bg.open { display: flex; }
 .modal { background: #fff; border-radius: 18px; padding: 20px; width: min(380px, 94vw); max-height: 92vh; display: flex; flex-direction: column; }
 .modal-title { font-size: 15px; font-weight: 700; color: #cd5c5c; margin-bottom: 12px; font-family: 'Zen Maru Gothic', sans-serif; text-align: center; }
-.crop-box { position: relative; width: 60%; margin: 0 auto; aspect-ratio: 9/16; background: #f9eff1; border-radius: 12px; overflow: hidden; cursor: grab; user-select: none; touch-action: none; flex-shrink: 0; }
+.crop-box { position: relative; width: 55%; margin: 0 auto; aspect-ratio: 1080/2340; background: #f9eff1; border-radius: 12px; overflow: hidden; cursor: grab; user-select: none; touch-action: none; flex-shrink: 0; }
 .crop-box.dragging { cursor: grabbing; }
 .crop-box img { position: absolute; transform-origin: 0 0; pointer-events: none; }
 .crop-slider-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
@@ -95,8 +99,8 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 @media (max-width: 540px) {
   .layout { flex-direction: column; }
   .preview-col { width: 100%; height: auto; position: sticky; top: 0; flex-direction: row; align-items: center; justify-content: center; gap: 12px; padding: 10px 16px; z-index: 5; }
-  #preview-wrap { width: 90px; height: 160px; flex-shrink: 0; }
-  canvas#preview { width: 90px; height: 160px; }
+  #preview-wrap { width: 81px; height: 175px; flex-shrink: 0; }
+  canvas#preview { width: 81px; height: 175px; }
   .drag-tip { font-size: 10px; flex: 1; max-width: 180px; margin-top: 0; }
   .controls-col { padding: 12px 12px 80px; }
 }
@@ -106,14 +110,14 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 
 <div class="site-header">
   <div class="site-title">🐾 ペットのもしも待受メイキング</div>
-  <div class="site-desc">ペットの写真でスマホの待受画像を作ります。飼い主の緊急時にペットの置き去り死を防ぐための注意事項を、かわいい写真と一緒に呼びかけます。</div>
+  <div class="site-desc">大切なペットの写真でスマホ待受画像を作れる無料ツールです。もしもの時にペットのそばにいてもらえるよう、周りの人へのお願いを込めた一枚を作りましょう。</div>
 </div>
 
 <div class="layout">
   <div class="preview-col">
     <div class="preview-label">プレビュー</div>
     <div id="preview-wrap">
-      <canvas id="preview" width="1080" height="1920"></canvas>
+      <canvas id="preview" width="1080" height="2340"></canvas>
     </div>
     <div class="drag-tip">
       👆 テキストは指でドラッグして移動<br>
@@ -283,7 +287,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 </div>
 
 <script>
-const CW = 1080, CH = 1920;
+const CW = 1080, CH = 2340;
 let img = null, zoom = 1, baseZoom = 1, imgX = 0, imgY = 0;
 let bannerPos = { x: CW/2, y: CH*0.30 };
 let msgPos    = { x: CW/2, y: CH*0.76 };
@@ -304,7 +308,6 @@ const decoColors = {
   blue:   'rgba(120,185,230,0.85)',
 };
 
-// ---- Crop drag ----
 const cropBox = document.getElementById('crop-box');
 let cDrag = false, cLX = 0, cLY = 0;
 cropBox.addEventListener('mousedown', e => { cDrag=true; cLX=e.clientX; cLY=e.clientY; cropBox.classList.add('dragging'); });
@@ -318,7 +321,6 @@ function moveCrop(dx, dy) {
   imgX+=dx*s; imgY+=dy*s; clamp(); requestAnimationFrame(updateCropImg);
 }
 
-// ---- Preview drag + pinch ----
 const pw = document.getElementById('preview-wrap');
 let tDrag=null, tLX=0, tLY=0, pinching=false, pinchD0=0, pinchS0=1;
 pw.addEventListener('mousedown', e => startTDrag(e.clientX, e.clientY));
@@ -353,7 +355,6 @@ function onTMove(cx,cy){
 }
 function clampV(v,mn,mx){ return Math.max(mn,Math.min(mx,v)); }
 
-// ---- File / Crop ----
 function openCropModal(){ document.getElementById('file-input').click(); }
 function onFileSelected(e){
   const file=e.target.files[0]; if(!file) return;
@@ -395,13 +396,11 @@ function updateCropImg(){
 function closeCropModal(){ document.getElementById('crop-modal').classList.remove('open'); }
 function confirmCrop(){ closeCropModal(); document.getElementById('dl-btn').disabled=false; render(); }
 
-// ---- Controls ----
 function syncV(id,vid){ document.getElementById(vid).textContent=document.getElementById(id).value; }
 function pickFont(btn){
   document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active'); font=btn.dataset.font;
-  isEnglish=btn.dataset.lang==='en';
-  render();
+  isEnglish=btn.dataset.lang==='en'; render();
 }
 function pickColor(t,el){
   document.querySelectorAll('#'+(t==='b'?'bc':'mc')+' .sw').forEach(s=>s.classList.remove('active'));
@@ -427,16 +426,13 @@ function pickDeco(el){
 function pickMsgBg(btn){
   btn.closest('.btn-group').querySelectorAll('.gbtn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active'); msgBg=btn.dataset.v;
-  document.getElementById('msg-bg-opacity-row').style.display=msgBg==='none'?'none':'flex';
-  render();
+  document.getElementById('msg-bg-opacity-row').style.display=msgBg==='none'?'none':'flex'; render();
 }
 
-// ---- Save ----
 function openSaveModal(){
   render();
   savedDataUrl=document.getElementById('preview').toDataURL('image/png');
   document.getElementById('save-preview').src=savedDataUrl;
-  document.getElementById('save-dl-link') && (document.getElementById('save-dl-link').href=savedDataUrl);
   const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
   document.getElementById('save-note').textContent=isIOS
     ? '画像を長押しして「写真に追加」を選んで保存してください。'
@@ -452,7 +448,6 @@ function doSave(){
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-// ---- Clear ----
 function openClearModal(){ document.getElementById('clear-modal').classList.add('open'); }
 function closeClearModal(){ document.getElementById('clear-modal').classList.remove('open'); }
 function doClean(){
@@ -479,7 +474,6 @@ function doClean(){
   render();
 }
 
-// ---- Render ----
 function render(){
   const cv=document.getElementById('preview');
   const ctx=cv.getContext('2d');
@@ -493,13 +487,15 @@ function render(){
 
 function drawDeco(ctx){
   const c=decoColors[decoColor]||decoColors.gold;
+  // 上部装飾はCHに対する比率で計算
+  const t = CH/1920;
   ctx.save(); ctx.strokeStyle=c; ctx.lineWidth=8;
-  ctx.beginPath(); ctx.moveTo(0,155); ctx.bezierCurveTo(CW*.22,275,CW*.52,90,CW*.76,250); ctx.bezierCurveTo(CW*.88,310,CW,195,CW,175); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(CW*.08,68); ctx.bezierCurveTo(CW*.32,192,CW*.58,55,CW*.88,162); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,155*t); ctx.bezierCurveTo(CW*.22,275*t,CW*.52,90*t,CW*.76,250*t); ctx.bezierCurveTo(CW*.88,310*t,CW,195*t,CW,175*t); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(CW*.08,68*t); ctx.bezierCurveTo(CW*.32,192*t,CW*.58,55*t,CW*.88,162*t); ctx.stroke();
   ctx.restore();
-  [[105,192,88],[CW-125,228,94],[CW*.5,82,64],[52,368,52],[CW-72,405,60]].forEach(([x,y,s])=>star(ctx,x,y,s,c));
+  [[105,192*t,88],[CW-125,228*t,94],[CW*.5,82*t,64],[52,368*t,52],[CW-72,405*t,60]].forEach(([x,y,s])=>star(ctx,x,y,s,c));
   [[75,CH-108,42],[185,CH-50,56],[325,CH-92,46],[470,CH-40,64],[592,CH-122,38],[710,CH-58,50],[850,CH-80,60],[970,CH-128,44],[132,CH-192,33],[430,CH-172,46],[742,CH-158,40],[930,CH-210,35]].forEach(([x,y,r])=>{ ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
-  [[CW*.28,98],[CW*.54,170],[CW*.70,112],[CW*.18,218]].forEach(([x,y])=>{ ctx.beginPath(); ctx.arc(x,y,17,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
+  [[CW*.28,98*t],[CW*.54,170*t],[CW*.70,112*t],[CW*.18,218*t]].forEach(([x,y])=>{ ctx.beginPath(); ctx.arc(x,y,17,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
 }
 function star(ctx,cx,cy,sz,c){
   ctx.save(); ctx.translate(cx,cy); ctx.fillStyle=c; ctx.beginPath();
