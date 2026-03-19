@@ -9,91 +9,19 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: #fdf5f6; font-family: 'Hiragino Sans', sans-serif; color: #3a2830; }
 
-/* ===== HEADER ===== */
-.site-header {
-  background: #fff;
-  border-bottom: 0.5px solid #f0dde0;
-  padding: 18px 20px 14px;
-  text-align: center;
-}
+.site-header { background: #fff; border-bottom: 0.5px solid #f0dde0; padding: 18px 20px 14px; text-align: center; }
 .site-logo { font-size: 20px; font-weight: 700; color: #cd5c5c; font-family: 'Zen Maru Gothic', sans-serif; letter-spacing: 0.04em; }
-.site-logo span { color: #e8a0a0; font-weight: 400; }
-.site-desc {
-  margin-top: 10px;
-  font-size: 12px;
-  color: #8a7078;
-  line-height: 1.8;
-  max-width: 520px;
-  margin-left: auto; margin-right: auto;
-  background: #fff8f8;
-  border-radius: 10px;
-  padding: 10px 14px;
-  border: 0.5px solid #f0dde0;
-  text-align: left;
-}
+.site-desc { margin-top: 10px; font-size: 12px; color: #8a7078; line-height: 1.8; max-width: 520px; margin-left: auto; margin-right: auto; background: #fff8f8; border-radius: 10px; padding: 10px 14px; border: 0.5px solid #f0dde0; text-align: left; }
 
-/* ===== LAYOUT ===== */
-.layout {
-  display: flex;
-  min-height: calc(100vh - 120px);
-  max-width: 860px;
-  margin: 0 auto;
-}
+.layout { display: flex; min-height: calc(100vh - 120px); max-width: 860px; margin: 0 auto; }
 
-/* Left: sticky portrait preview */
-.preview-col {
-  width: 220px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 8px 16px 16px;
-  background: #f9eff1;
-  border-right: 0.5px solid #f0dde0;
-}
+.preview-col { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 8px 16px 16px; background: #f9eff1; border-right: 0.5px solid #f0dde0; }
 .preview-label { font-size: 10px; color: #b09098; margin-bottom: 6px; text-align: center; letter-spacing: 0.04em; }
-
-#preview-wrap {
-  position: relative;
-  width: 180px;
-  height: 320px;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(180,80,80,0.15);
-  cursor: crosshair;
-  user-select: none;
-  touch-action: none;
-  background: #e8d8da;
-}
+#preview-wrap { position: relative; width: 180px; height: 320px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(180,80,80,0.15); user-select: none; touch-action: none; background: #e8d8da; cursor: crosshair; }
 canvas#preview { display: block; width: 180px; height: 320px; }
+.drag-tip { margin-top: 10px; font-size: 10px; color: #b09098; text-align: center; line-height: 1.6; padding: 7px 10px; background: #fff; border-radius: 8px; border: 0.5px solid #f0dde0; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
-.drag-tip {
-  margin-top: 10px;
-  font-size: 10px;
-  color: #b09098;
-  text-align: center;
-  line-height: 1.6;
-  padding: 7px 10px;
-  background: #fff;
-  border-radius: 8px;
-  border: 0.5px solid #f0dde0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-/* Controls */
-.controls-col {
-  flex: 1;
-  padding: 20px 16px 80px;
-  overflow-y: auto;
-}
-
+.controls-col { flex: 1; padding: 20px 16px 80px; overflow-y: auto; }
 .step { background: #fff; border: 0.5px solid #f0dde0; border-radius: 14px; padding: 1rem; margin-bottom: 10px; }
 .step-title { font-size: 12px; font-weight: 500; color: #5a3844; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
 .step-num { width: 20px; height: 20px; border-radius: 50%; background: #cd5c5c; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -129,6 +57,12 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 .fbtn:hover { background: #fff8f8; }
 .fbtn.active { background: #cd5c5c; color: #fff; border-color: #cd5c5c; }
 
+/* Deco color swatches */
+.deco-swatches { display: flex; gap: 8px; margin-top: 8px; }
+.dsw { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2.5px solid transparent; transition: transform 0.1s; flex-shrink: 0; }
+.dsw:hover { transform: scale(1.1); }
+.dsw.active { border-color: #cd5c5c; transform: scale(1.08); }
+
 .tog-row { display: flex; align-items: center; justify-content: space-between; }
 .tog-wrap { position: relative; width: 40px; height: 22px; }
 .tog-wrap input { opacity: 0; width: 0; height: 0; }
@@ -142,30 +76,26 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 .dl-btn:disabled { opacity: 0.3; cursor: default; }
 
 /* Save modal */
-.save-modal-bg { display: none; position: fixed; inset: 0; background: rgba(60,20,30,0.45); z-index: 200; align-items: center; justify-content: center; }
-.save-modal-bg.open { display: flex; }
-.save-modal { background: #fff; border-radius: 18px; padding: 24px 20px; width: min(340px, 90vw); text-align: center; }
-.save-modal-title { font-size: 16px; font-weight: 700; color: #cd5c5c; margin-bottom: 8px; font-family: 'Zen Maru Gothic', sans-serif; }
-.save-modal-body { font-size: 13px; color: #8a7078; line-height: 1.7; margin-bottom: 16px; }
-.save-img-preview { width: 100%; max-height: 200px; object-fit: contain; border-radius: 10px; margin-bottom: 14px; border: 0.5px solid #f0dde0; }
-.save-btn { display: block; width: 100%; padding: 12px; background: #cd5c5c; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; margin-bottom: 8px; text-decoration: none; }
-.save-close { display: block; width: 100%; padding: 10px; background: transparent; border: 0.5px solid #f0dde0; border-radius: 10px; font-size: 13px; color: #8a7078; cursor: pointer; font-family: inherit; }
-
-/* Crop modal */
 .modal-bg { display: none; position: fixed; inset: 0; background: rgba(60,20,30,0.5); z-index: 100; align-items: center; justify-content: center; }
 .modal-bg.open { display: flex; }
-.modal { background: #fff; border-radius: 18px; padding: 20px; width: min(360px, 92vw); max-height: 90vh; display: flex; flex-direction: column; }
-.modal-title { font-size: 15px; font-weight: 500; color: #3a2830; margin-bottom: 12px; }
+.modal { background: #fff; border-radius: 18px; padding: 20px; width: min(380px, 94vw); max-height: 92vh; display: flex; flex-direction: column; overflow: hidden; }
+.modal-title { font-size: 15px; font-weight: 700; color: #cd5c5c; margin-bottom: 12px; font-family: 'Zen Maru Gothic', sans-serif; text-align: center; }
+
+/* Crop modal */
 .crop-box { position: relative; width: 60%; margin: 0 auto; aspect-ratio: 9/16; background: #f9eff1; border-radius: 12px; overflow: hidden; cursor: grab; user-select: none; touch-action: none; flex-shrink: 0; }
 .crop-box.dragging { cursor: grabbing; }
 .crop-box img { position: absolute; transform-origin: 0 0; pointer-events: none; }
 .crop-slider-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
-.modal-btns { display: flex; gap: 8px; }
-.modal-btn { flex: 1; padding: 11px; border: 0.5px solid #f0dde0; border-radius: 10px; background: transparent; color: #8a7078; font-size: 13px; cursor: pointer; font-family: inherit; }
-.modal-btn.primary { background: #cd5c5c; color: #fff; border-color: #cd5c5c; }
+.modal-btns { display: flex; gap: 8px; margin-top: 8px; }
+.modal-btn { flex: 1; padding: 11px; border: 0.5px solid #f0dde0; border-radius: 10px; background: transparent; color: #8a7078; font-size: 13px; cursor: pointer; font-family: inherit; transition: opacity 0.15s; }
+.modal-btn.primary { background: #cd5c5c; color: #fff; border-color: #cd5c5c; font-weight: 700; }
 .modal-btn:hover { opacity: 0.82; }
 
-/* Mobile */
+/* Save preview modal */
+#save-modal .save-preview-wrap { flex: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+#save-modal .save-preview-wrap img { max-width: 100%; max-height: 50vh; border-radius: 10px; object-fit: contain; }
+.save-note { font-size: 12px; color: #8a7078; text-align: center; margin-bottom: 12px; line-height: 1.6; }
+
 @media (max-width: 540px) {
   .layout { flex-direction: column; }
   .preview-col { width: 100%; height: auto; position: sticky; top: 0; flex-direction: row; align-items: center; justify-content: center; gap: 12px; padding: 10px 16px; z-index: 5; }
@@ -173,47 +103,35 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
   canvas#preview { width: 90px; height: 160px; }
   .drag-tip { font-size: 10px; flex: 1; max-width: 180px; margin-top: 0; }
   .controls-col { padding: 12px 12px 80px; }
-  .site-header { padding: 14px 16px 12px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <div class="site-header">
   <div class="site-logo">🐾 ペットのもしも待受メイキング</div>
-  <div class="site-desc">
-    このジェネレーターは、ペットの写真でスマホの待受画像を作ります。飼い主の緊急時に、ペットの置き去り死を防ぐための注意事項を、ペットのかわいい写真と一緒に呼びかけます。ぜひ使ってみてください。
-  </div>
+  <div class="site-desc">このジェネレーターは、ペットの写真でスマホの待受画像を作ります。飼い主の緊急時に、ペットの置き去り死を防ぐための注意事項を、ペットのかわいい写真と一緒に呼びかけます。ぜひ使ってみてください。</div>
 </div>
 
 <div class="layout">
-
-  <!-- Sticky preview -->
   <div class="preview-col">
     <div class="preview-label">プレビュー（9:16）</div>
     <div id="preview-wrap">
       <canvas id="preview" width="1080" height="1920"></canvas>
     </div>
     <div class="drag-tip">
-      <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7 0C6.17 0 5.5 0.67 5.5 1.5V7.2C5.1 6.88 4.58 6.67 4 6.67C2.9 6.67 2 7.56 2 8.67V12C2 15.31 4.69 18 8 18C11.31 18 14 15.31 14 12V8.67C14 7.56 13.1 6.67 12 6.67C11.42 6.67 10.9 6.88 10.5 7.2V4.5C10.5 3.4 9.6 2.5 8.5 2.5C7.96 2.5 7.46 2.72 7.1 3.08C6.86 1.36 5.47 0 4 0" fill="#cd5c5c" opacity="0.6"/>
-      </svg>
-      テキストは指で動かせます
+      <svg width="13" height="17" viewBox="0 0 13 17" fill="none"><path d="M5.5 1.5C5.5 0.67 6.17 0 7 0C7.83 0 8.5 0.67 8.5 1.5V7.2C8.9 6.88 9.4 6.67 10 6.67C11.1 6.67 12 7.56 12 8.67V12C12 15.31 9.31 18 6 18C2.69 18 0 15.31 0 12V8.67C0 7.56 0.9 6.67 2 6.67C2.6 6.67 3.1 6.88 3.5 7.2V1.5C3.5 0.67 4.17 0 5 0" fill="#cd5c5c" opacity="0.55" transform="scale(1.05)"/></svg>
+      テキストは指で動かせます<br><span style="font-size:9px;color:#c4b0b4">2本指でサイズ変更</span>
     </div>
   </div>
 
-  <!-- Controls -->
   <div class="controls-col">
-
-    <!-- 1: Photo -->
     <div class="step">
       <div class="step-title"><span class="step-num">1</span>写真</div>
       <label class="upload-btn" onclick="openCropModal()">📷 あなたのペットの写真を選択してください</label>
       <input type="file" accept="image/*" id="file-input" style="display:none" onchange="onFileSelected(event)" />
     </div>
 
-    <!-- 2: Text -->
     <div class="step">
       <div class="step-title"><span class="step-num">2</span>テキスト</div>
       <p class="sec-sub" style="margin-top:0">動物の種類</p>
@@ -233,7 +151,6 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
       </div>
     </div>
 
-    <!-- 3: Banner style -->
     <div class="step">
       <div class="step-title"><span class="step-num">3</span>タイトル文字</div>
       <p class="sec-sub" style="margin-top:0">文字色</p>
@@ -259,7 +176,6 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
       </div>
     </div>
 
-    <!-- 4: Message style -->
     <div class="step">
       <div class="step-title"><span class="step-num">4</span>依頼テキスト</div>
       <p class="sec-sub" style="margin-top:0">文字色</p>
@@ -285,21 +201,28 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
       </div>
     </div>
 
-    <!-- 5: Deco -->
     <div class="step">
       <div class="step-title"><span class="step-num">5</span>装飾</div>
-      <div class="tog-row">
+      <div class="tog-row" style="margin-bottom:10px">
         <span style="font-size:12px;color:#5a3844">星・ガーランドを表示</span>
         <label class="tog-wrap"><input type="checkbox" id="deco" checked onchange="render()" /><span class="tog-track"></span></label>
       </div>
+      <p class="sec-sub" style="margin-top:0">装飾の色</p>
+      <div class="deco-swatches">
+        <div class="dsw active" style="background:linear-gradient(135deg,#f0c040,#c89820)" data-deco="gold" onclick="pickDeco(this)" title="ゴールド"></div>
+        <div class="dsw" style="background:#ffffff;outline:1px solid #eee;outline-offset:1px" data-deco="white" onclick="pickDeco(this)" title="ホワイト"></div>
+        <div class="dsw" style="background:#f4a0b0" data-deco="pink" onclick="pickDeco(this)" title="ピンク"></div>
+        <div class="dsw" style="background:#c8c8d8" data-deco="silver" onclick="pickDeco(this)" title="シルバー"></div>
+        <div class="dsw" style="background:#a8d4f0" data-deco="blue" onclick="pickDeco(this)" title="ブルー"></div>
+      </div>
     </div>
 
-    <button class="dl-btn" id="dl-btn" onclick="saveWallpaper()" disabled>🐾 待受を保存する</button>
+    <button class="dl-btn" id="dl-btn" onclick="openSaveModal()" disabled>🐾 待受を保存する</button>
   </div>
 </div>
 
 <!-- Crop Modal -->
-<div class="modal-bg" id="modal-bg">
+<div class="modal-bg" id="crop-modal">
   <div class="modal">
     <div class="modal-title">📐 写真をトリミング</div>
     <div class="crop-box" id="crop-box"><img id="crop-img" /></div>
@@ -308,24 +231,26 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
       <input type="range" id="crop-zoom" min="0.3" max="4" step="0.01" value="1" oninput="onCropZoom()" />
       <span class="sl-val" id="crop-zoom-v">100%</span>
     </div>
-    <p style="font-size:11px;color:#b09098;margin-bottom:10px;text-align:center">ドラッグして位置を調整</p>
+    <p style="font-size:11px;color:#b09098;margin-bottom:6px;text-align:center">ドラッグして位置を調整</p>
     <div class="modal-btns">
-      <button class="modal-btn" onclick="closeModal()">キャンセル</button>
+      <button class="modal-btn" onclick="closeCropModal()">キャンセル</button>
       <button class="modal-btn primary" onclick="confirmCrop()">決定</button>
     </div>
   </div>
 </div>
 
 <!-- Save Modal -->
-<div class="save-modal-bg" id="save-modal-bg">
-  <div class="save-modal">
-    <div class="save-modal-title">🎉 保存しました！</div>
-    <div class="save-modal-body" id="save-modal-body">
-      下のボタンから画像を長押し保存するか、ダウンロードしてください。
+<div class="modal-bg" id="save-modal">
+  <div class="modal" style="align-items:center">
+    <div class="modal-title">🎉 できあがり！</div>
+    <div class="save-preview-wrap">
+      <img id="save-preview-img" />
     </div>
-    <img class="save-img-preview" id="save-img-preview" />
-    <a class="save-btn" id="save-dl-link" download="pet-wallpaper.png">📥 画像をダウンロード</a>
-    <button class="save-close" onclick="closeSaveModal()">閉じる</button>
+    <p class="save-note" id="save-note">下のボタンを長押し（iOS）またはクリック（Android/PC）して保存してください。</p>
+    <div class="modal-btns" style="width:100%">
+      <button class="modal-btn" onclick="closeSaveModal()">修正する</button>
+      <a class="modal-btn primary" id="save-dl-link" download="pet-wallpaper.png" style="text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center">📥 保存する</a>
+    </div>
   </div>
 </div>
 
@@ -334,9 +259,19 @@ const CW = 1080, CH = 1920;
 let img = null, zoom = 1, baseZoom = 1, imgX = 0, imgY = 0;
 let bannerPos = { x: CW/2, y: CH*0.40 };
 let msgPos    = { x: CW/2, y: CH*0.78 };
+let bannerFontScale = 1.0; // pinch scale for banner
 let bColor = '#ffffff', mColor = '#ffffff';
 let bStroke = 'none', mStroke = 'none';
 let font = "'Zen Maru Gothic'";
+let decoColor = 'gold';
+
+const decoColors = {
+  gold:   'rgba(190,150,38,0.85)',
+  white:  'rgba(255,255,255,0.88)',
+  pink:   'rgba(240,140,160,0.85)',
+  silver: 'rgba(180,180,195,0.85)',
+  blue:   'rgba(120,185,230,0.85)',
+};
 
 // ---- Crop modal drag ----
 const cropBox = document.getElementById('crop-box');
@@ -347,21 +282,57 @@ document.addEventListener('mousemove', e => { if(!cDrag||!img) return; moveCrop(
 document.addEventListener('touchmove', e => { if(!cDrag||!img) return; const t=e.touches[0]; moveCrop(t.clientX-cLX, t.clientY-cLY); cLX=t.clientX; cLY=t.clientY; }, {passive:true});
 document.addEventListener('mouseup', ()=>{ cDrag=false; cropBox.classList.remove('dragging'); });
 document.addEventListener('touchend', ()=>{ cDrag=false; });
-
 function moveCrop(dx, dy) {
   const s = CW / cropBox.getBoundingClientRect().width;
   imgX += dx*s; imgY += dy*s; clamp(); requestAnimationFrame(updateCropImg);
 }
 
-// ---- Preview text drag ----
+// ---- Preview interactions ----
 const pw = document.getElementById('preview-wrap');
 let tDrag = null, tLX = 0, tLY = 0;
+let pinching = false, pinchDist0 = 0, pinchScale0 = 1;
+
 pw.addEventListener('mousedown', e => startTDrag(e.clientX, e.clientY));
-pw.addEventListener('touchstart', e => { e.preventDefault(); const t=e.touches[0]; startTDrag(t.clientX, t.clientY); }, {passive:false});
+pw.addEventListener('touchstart', e => {
+  if (e.touches.length === 2) {
+    // Pinch start
+    pinching = true;
+    tDrag = null;
+    pinchDist0 = getTouchDist(e);
+    pinchScale0 = bannerFontScale;
+    e.preventDefault();
+  } else {
+    e.preventDefault();
+    const t = e.touches[0];
+    startTDrag(t.clientX, t.clientY);
+  }
+}, {passive:false});
+
 document.addEventListener('mousemove', e => onTMove(e.clientX, e.clientY));
-document.addEventListener('touchmove', e => { if(!tDrag) return; e.preventDefault(); const t=e.touches[0]; onTMove(t.clientX, t.clientY); }, {passive:false});
+document.addEventListener('touchmove', e => {
+  if (pinching && e.touches.length === 2) {
+    const dist = getTouchDist(e);
+    bannerFontScale = Math.max(0.4, Math.min(2.5, pinchScale0 * dist / pinchDist0));
+    render();
+    e.preventDefault();
+  } else if (!pinching) {
+    if (!tDrag) return;
+    e.preventDefault();
+    const t = e.touches[0];
+    onTMove(t.clientX, t.clientY);
+  }
+}, {passive:false});
+
 document.addEventListener('mouseup', ()=>tDrag=null);
-document.addEventListener('touchend', ()=>tDrag=null);
+document.addEventListener('touchend', e => {
+  if (e.touches.length < 2) pinching = false;
+  tDrag = null;
+});
+
+function getTouchDist(e) {
+  const t0 = e.touches[0], t1 = e.touches[1];
+  return Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
+}
 
 function toCanvas(cx, cy) {
   const r = pw.getBoundingClientRect();
@@ -369,17 +340,18 @@ function toCanvas(cx, cy) {
 }
 function startTDrag(cx, cy) {
   const [x, y] = toCanvas(cx, cy);
-  if (Math.abs(x-bannerPos.x)<520 && Math.abs(y-bannerPos.y)<140) tDrag='b';
-  else if (Math.abs(x-msgPos.x)<500 && Math.abs(y-msgPos.y)<220) tDrag='m';
-  tLX=cx; tLY=cy;
+  // Generous hit area
+  if (Math.abs(x - bannerPos.x) < CW*0.48 && Math.abs(y - bannerPos.y) < CH*0.12) tDrag = 'b';
+  else if (Math.abs(x - msgPos.x) < CW*0.46 && Math.abs(y - msgPos.y) < CH*0.14) tDrag = 'm';
+  tLX = cx; tLY = cy;
 }
 function onTMove(cx, cy) {
   if (!tDrag) return;
   const dx=cx-tLX, dy=cy-tLY; tLX=cx; tLY=cy;
   const r=pw.getBoundingClientRect();
   const sx=CW/r.width, sy=CH/r.height;
-  if (tDrag==='b') { bannerPos.x=clampV(bannerPos.x+dx*sx,100,CW-100); bannerPos.y=clampV(bannerPos.y+dy*sy,60,CH-60); }
-  else { msgPos.x=clampV(msgPos.x+dx*sx,100,CW-100); msgPos.y=clampV(msgPos.y+dy*sy,60,CH-60); }
+  if (tDrag==='b') { bannerPos.x=clampV(bannerPos.x+dx*sx,80,CW-80); bannerPos.y=clampV(bannerPos.y+dy*sy,40,CH-40); }
+  else             { msgPos.x=clampV(msgPos.x+dx*sx,80,CW-80);    msgPos.y=clampV(msgPos.y+dy*sy,40,CH-40); }
   render();
 }
 function clampV(v,mn,mx){ return Math.max(mn,Math.min(mx,v)); }
@@ -399,7 +371,7 @@ function onFileSelected(e) {
       const zEl = document.getElementById('crop-zoom');
       zEl.min = baseZoom*0.5; zEl.max = baseZoom*3.5; zEl.value = zoom;
       document.getElementById('crop-zoom-v').textContent = '100%';
-      document.getElementById('modal-bg').classList.add('open');
+      document.getElementById('crop-modal').classList.add('open');
       requestAnimationFrame(() => requestAnimationFrame(updateCropImg));
     };
     i.src = ev.target.result;
@@ -430,9 +402,9 @@ function updateCropImg() {
   el.style.left = (imgX*s)+'px';
   el.style.top = (imgY*s)+'px';
 }
-function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+function closeCropModal() { document.getElementById('crop-modal').classList.remove('open'); }
 function confirmCrop() {
-  closeModal();
+  closeCropModal();
   document.getElementById('dl-btn').disabled = false;
   render();
 }
@@ -462,69 +434,71 @@ function pickStroke(t, btn) {
   else { mStroke=v; document.getElementById('m-sw-row').style.display=v==='none'?'none':'flex'; }
   render();
 }
+function pickDeco(el) {
+  document.querySelectorAll('.dsw').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  decoColor = el.dataset.deco;
+  render();
+}
 
-// ---- Save (iOS compatible) ----
-function saveWallpaper() {
-  const cv = document.getElementById('preview');
-  const dataUrl = cv.toDataURL('image/png');
-  // Show save modal with image preview
-  document.getElementById('save-img-preview').src = dataUrl;
+// ---- Save ----
+function openSaveModal() {
+  render();
+  const dataUrl = document.getElementById('preview').toDataURL('image/png');
+  document.getElementById('save-preview-img').src = dataUrl;
   document.getElementById('save-dl-link').href = dataUrl;
-  document.getElementById('save-modal-bg').classList.add('open');
+  // iOS hint
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  document.getElementById('save-note').textContent = isIOS
+    ? '「保存する」を長押しして「写真に追加」を選んでください。'
+    : '「保存する」をタップして画像をダウンロードしてください。';
+  document.getElementById('save-modal').classList.add('open');
 }
-function closeSaveModal() {
-  document.getElementById('save-modal-bg').classList.remove('open');
-}
+function closeSaveModal() { document.getElementById('save-modal').classList.remove('open'); }
 
 // ---- Render ----
 function render() {
   const cv = document.getElementById('preview');
   const ctx = cv.getContext('2d');
   ctx.clearRect(0,0,CW,CH);
-
   if(img) {
     ctx.drawImage(img, imgX, imgY, img.width*zoom, img.height*zoom);
   } else {
     ctx.fillStyle='#e8d8da'; ctx.fillRect(0,0,CW,CH);
-    ctx.fillStyle='rgba(90,40,50,0.3)'; ctx.font='bold 40px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle='rgba(90,40,50,0.3)'; ctx.font='bold 40px sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText('写真を選択してください', CW/2, CH/2);
   }
-
   if(document.getElementById('deco').checked) drawDeco(ctx);
   drawBanner(ctx);
   drawMsg(ctx);
 }
 
 function drawDeco(ctx) {
-  const gold='rgba(190,150,38,0.82)';
-  ctx.save(); ctx.strokeStyle=gold; ctx.lineWidth=8;
+  const c = decoColors[decoColor] || decoColors.gold;
+  ctx.save(); ctx.strokeStyle=c; ctx.lineWidth=8;
   ctx.beginPath(); ctx.moveTo(0,155); ctx.bezierCurveTo(CW*.22,275,CW*.52,90,CW*.76,250); ctx.bezierCurveTo(CW*.88,310,CW,195,CW,175); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(CW*.08,68); ctx.bezierCurveTo(CW*.32,192,CW*.58,55,CW*.88,162); ctx.stroke();
   ctx.restore();
-  [[105,192,88],[CW-125,228,94],[CW*.5,82,64],[52,368,52],[CW-72,405,60]].forEach(([x,y,s])=>star(ctx,x,y,s,gold));
+  [[105,192,88],[CW-125,228,94],[CW*.5,82,64],[52,368,52],[CW-72,405,60]].forEach(([x,y,s])=>star(ctx,x,y,s,c));
   [[75,CH-108,42],[185,CH-50,56],[325,CH-92,46],[470,CH-40,64],[592,CH-122,38],[710,CH-58,50],[850,CH-80,60],[970,CH-128,44],[132,CH-192,33],[430,CH-172,46],[742,CH-158,40],[930,CH-210,35]].forEach(([x,y,r])=>{
-    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fillStyle=gold; ctx.fill();
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fillStyle=c; ctx.fill();
   });
-  [[CW*.28,98],[CW*.54,170],[CW*.70,112],[CW*.18,218]].forEach(([x,y])=>{ ctx.beginPath(); ctx.arc(x,y,17,0,Math.PI*2); ctx.fillStyle=gold; ctx.fill(); });
+  [[CW*.28,98],[CW*.54,170],[CW*.70,112],[CW*.18,218]].forEach(([x,y])=>{ ctx.beginPath(); ctx.arc(x,y,17,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
 }
 function star(ctx,cx,cy,sz,c) {
   ctx.save(); ctx.translate(cx,cy); ctx.fillStyle=c; ctx.beginPath();
   for(let i=0;i<5;i++){const a=i*4*Math.PI/5-Math.PI/2; i===0?ctx.moveTo(Math.cos(a)*sz,Math.sin(a)*sz):ctx.lineTo(Math.cos(a)*sz,Math.sin(a)*sz);}
   ctx.closePath(); ctx.fill(); ctx.restore();
 }
-
-function strokeColor(type) {
-  if(type==='white') return '#ffffff';
-  if(type==='brown') return '#5a3844';
-  return '#000';
-}
+function strokeColor(t){ return t==='white'?'#ffffff':t==='brown'?'#5a3844':'#000'; }
 
 function arcText(ctx, text, cx, cy, radius, fnt, color, stroke, sw) {
   ctx.save(); ctx.font=fnt; ctx.textAlign='center'; ctx.textBaseline='middle';
   const chars=[...text];
-  const totalW = chars.reduce((s,c)=>s+ctx.measureText(c).width,0);
-  const span = totalW/Math.abs(radius);
-  let a = -span/2;
+  const totalW=chars.reduce((s,c)=>s+ctx.measureText(c).width,0);
+  const span=totalW/Math.abs(radius);
+  let a=-span/2;
   for(const ch of chars){
     const cw=ctx.measureText(ch).width;
     const ca=a+cw/(2*Math.abs(radius));
@@ -544,50 +518,35 @@ function drawBanner(ctx) {
   const curveVal = parseInt(document.getElementById('curve').value);
   const sw = parseInt(document.getElementById('b-sw').value);
   const maxW = CW - 80;
+  const baseFs = Math.round(56 * bannerFontScale);
+  const animalFs = Math.round(76 * bannerFontScale);
 
-  // 「家に大切な」と「がいます」は標準サイズ、動物名だけ大きく
-  const baseFs = 56;
-  const animalFs = 76;
-
-  const prefixFont = `700 ${baseFs}px ${font}, 'Hiragino Sans', sans-serif`;
-  const animalFont = `700 ${animalFs}px ${font}, 'Hiragino Sans', sans-serif`;
-  const suffixFont = `700 ${baseFs}px ${font}, 'Hiragino Sans', sans-serif`;
-
-  const prefix = '家に大切な';
-  const suffix = 'がいます';
-
-  ctx.font = prefixFont; const pW = ctx.measureText(prefix).width;
-  ctx.font = animalFont; const aW = ctx.measureText(animal).width;
-  ctx.font = suffixFont; const sW = ctx.measureText(suffix).width;
+  const prefix = '家に大切な', suffix = 'がいます';
+  ctx.font = `700 ${baseFs}px ${font}, 'Hiragino Sans', sans-serif`;
+  const pW = ctx.measureText(prefix).width;
+  const sW = ctx.measureText(suffix).width;
+  ctx.font = `700 ${animalFs}px ${font}, 'Hiragino Sans', sans-serif`;
+  const aW = ctx.measureText(animal).width;
   const totalW = pW + aW + sW;
-  const scale = totalW > maxW ? maxW / totalW : 1;
-
-  const finalBaseFs = Math.floor(baseFs * scale);
-  const finalAnimalFs = Math.floor(animalFs * scale);
+  const shrink = totalW > maxW ? maxW / totalW : 1;
+  const fBase = Math.floor(baseFs * shrink);
+  const fAnim = Math.floor(animalFs * shrink);
 
   if(Math.abs(curveVal) < 20){
-    // Straight — draw each segment separately
-    ctx.save();
-    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-    let x = bannerPos.x - (pW + aW + sW) * scale / 2;
+    ctx.save(); ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    let x = bannerPos.x - totalW * shrink / 2;
     const y = bannerPos.y;
-
-    const drawSegment = (text, fs, color, stroke) => {
-      const f = `700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`;
-      ctx.font = f;
-      if(stroke!=='none'){ ctx.strokeStyle=strokeColor(stroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(text,x,y); }
-      ctx.fillStyle=color; ctx.fillText(text,x,y);
+    const draw = (text, fs) => {
+      ctx.font = `700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`;
+      if(bStroke!=='none'){ ctx.strokeStyle=strokeColor(bStroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(text,x,y); }
+      ctx.fillStyle=bColor; ctx.fillText(text,x,y);
       x += ctx.measureText(text).width;
     };
-    drawSegment(prefix, finalBaseFs, bColor, bStroke);
-    drawSegment(animal, finalAnimalFs, bColor, bStroke);
-    drawSegment(suffix, finalBaseFs, bColor, bStroke);
+    draw(prefix, fBase); draw(animal, fAnim); draw(suffix, fBase);
     ctx.restore();
   } else {
-    // Arc — combine as one string with uniform font for simplicity
-    const fs = Math.floor(60 * scale);
-    const fnt = `700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`;
-    arcText(ctx, prefix+animal+suffix, bannerPos.x, bannerPos.y, curveVal, fnt, bColor, bStroke, sw);
+    const fs = Math.floor(60 * bannerFontScale * shrink);
+    arcText(ctx, prefix+animal+suffix, bannerPos.x, bannerPos.y, curveVal, `700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`, bColor, bStroke, sw);
   }
 }
 
@@ -596,15 +555,12 @@ function drawMsg(ctx) {
   const msgs = [`${animal}が私の帰りを待っています`,'私にもしものことがあったら','気にかけてもらえたら幸いです'];
   const sw = parseInt(document.getElementById('m-sw').value);
   ctx.font = `700 46px ${font}, 'Hiragino Sans', sans-serif`;
-  const maxLineW = msgs.reduce((m,s)=>Math.max(m,ctx.measureText(s).width),0);
-  const maxW = CW - 80;
-  const fs = maxLineW > maxW ? Math.floor(46 * maxW / maxLineW) : 46;
-  const finalFont = `700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`;
-  const lineH = fs * 1.75;
-  const totalH = (msgs.length-1)*lineH;
-  ctx.save(); ctx.font=finalFont; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  const maxLW = msgs.reduce((m,s)=>Math.max(m,ctx.measureText(s).width),0);
+  const fs = maxLW > CW-80 ? Math.floor(46*(CW-80)/maxLW) : 46;
+  const lh = fs * 1.75;
+  ctx.save(); ctx.font=`700 ${fs}px ${font}, 'Hiragino Sans', sans-serif`; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   msgs.forEach((m,i)=>{
-    const y = msgPos.y - totalH/2 + i*lineH;
+    const y = msgPos.y - (msgs.length-1)*lh/2 + i*lh;
     if(mStroke!=='none'){ ctx.strokeStyle=strokeColor(mStroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(m,msgPos.x,y); }
     ctx.fillStyle=mColor; ctx.fillText(m,msgPos.x,y);
   });
