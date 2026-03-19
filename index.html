@@ -129,7 +129,13 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 
     <div class="step">
       <div class="step-title"><span class="step-num">1</span>写真</div>
-      <label class="upload-btn" onclick="openCropModal()">📷 あなたのペットの写真を選択してください</label>
+      <div id="photo-initial">
+        <label class="upload-btn" onclick="openCropModal()">📷 あなたのペットの写真を選択してください</label>
+      </div>
+      <div id="photo-selected" style="display:none">
+        <button class="upload-btn" onclick="openRetrimModal()" style="margin-bottom:6px">✂️ トリミングをし直す</button>
+        <button class="upload-btn" onclick="openCropModal()">🔄 別の画像を選び直す</button>
+      </div>
       <input type="file" accept="image/*" id="file-input" style="display:none" onchange="onFileSelected(event)" />
     </div>
 
@@ -356,6 +362,11 @@ function onTMove(cx,cy){
 function clampV(v,mn,mx){ return Math.max(mn,Math.min(mx,v)); }
 
 function openCropModal(){ document.getElementById('file-input').click(); }
+function openRetrimModal(){
+  if(!img) return;
+  document.getElementById('crop-modal').classList.add('open');
+  requestAnimationFrame(()=>requestAnimationFrame(updateCropImg));
+}
 function onFileSelected(e){
   const file=e.target.files[0]; if(!file) return;
   const reader=new FileReader();
@@ -394,7 +405,13 @@ function updateCropImg(){
   el.style.left=(imgX*s)+'px'; el.style.top=(imgY*s)+'px';
 }
 function closeCropModal(){ document.getElementById('crop-modal').classList.remove('open'); }
-function confirmCrop(){ closeCropModal(); document.getElementById('dl-btn').disabled=false; render(); }
+function confirmCrop(){
+  closeCropModal();
+  document.getElementById('dl-btn').disabled=false;
+  document.getElementById('photo-initial').style.display='none';
+  document.getElementById('photo-selected').style.display='block';
+  render();
+}
 
 function syncV(id,vid){ document.getElementById(vid).textContent=document.getElementById(id).value; }
 function pickFont(btn){
@@ -471,6 +488,8 @@ function doClean(){
   document.querySelectorAll('.btn-group .gbtn').forEach(b=>b.dataset.v==='none'?b.classList.add('active'):b.classList.remove('active'));
   document.getElementById('b-sw-row').style.display='none';
   document.getElementById('m-sw-row').style.display='none';
+  document.getElementById('photo-initial').style.display='block';
+  document.getElementById('photo-selected').style.display='none';
   render();
 }
 
