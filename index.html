@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>ペットのもしも待受メイキング</title>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Kaisei+Decol:wght@400;700&family=DotGothic16&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Kaisei+Decol:wght@400;700&family=Darumadrop+One&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: #fdf5f6; font-family: 'Hiragino Sans', sans-serif; color: #3a2830; }
@@ -121,7 +121,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 
 <div class="layout">
   <div class="preview-col">
-    <div class="preview-label">プレビュー（9:16）</div>
+    <div class="preview-label">プレビュー（19.5:9）</div>
     <div id="preview-wrap">
       <canvas id="preview" width="1290" height="2796"></canvas>
     </div>
@@ -147,7 +147,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
       <div class="font-row">
         <button class="fbtn active" data-font="'Zen Maru Gothic'" onclick="pickFont(this)" style="font-family:'Zen Maru Gothic'">まるごしっく</button>
         <button class="fbtn" data-font="'Kaisei Decol'" onclick="pickFont(this)" style="font-family:'Kaisei Decol'">明朝デコル</button>
-        <button class="fbtn" data-font="'DotGothic16'" onclick="pickFont(this)" style="font-family:'DotGothic16'">ドットゴシック</button>
+        <button class="fbtn" data-font="'Darumadrop One'" data-lang="en" onclick="pickFont(this)" style="font-family:'Darumadrop One'">Daruma</button>
       </div>
       <p class="sec-sub">タイトルの文字サイズ</p>
       <div class="slider-row">
@@ -281,13 +281,14 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 <script>
 const CW = 1290, CH = 2796;
 let img = null, zoom = 1, baseZoom = 1, imgX = 0, imgY = 0;
-let bannerPos = { x: CW/2, y: CH*0.40 };
-let msgPos    = { x: CW/2, y: CH*0.78 };
+let bannerPos = { x: CW/2, y: CH*0.36 };
+let msgPos    = { x: CW/2, y: CH*0.74 };
 let bannerFontScale = 1.0;
 let bColor = '#ffffff', mColor = '#ffffff';
 let bStroke = 'none', mStroke = 'none';
 let font = "'Zen Maru Gothic'";
 let decoColor = 'gold';
+let isEnglish = false;
 let msgFontScale = 1.0;
 let msgBg = 'none';
 let savedDataUrl = '';
@@ -461,10 +462,10 @@ function closeClearModal() { document.getElementById('clear-modal').classList.re
 function doClean() {
   closeClearModal();
   img=null; zoom=1; baseZoom=1; imgX=0; imgY=0;
-  bannerPos={x:CW/2,y:CH*0.40}; msgPos={x:CW/2,y:CH*0.78};
+  bannerPos={x:CW/2,y:CH*0.36}; msgPos={x:CW/2,y:CH*0.74};
   bannerFontScale=1.0; msgFontScale=1.0; msgBg='none';
   bColor='#ffffff'; mColor='#ffffff'; bStroke='none'; mStroke='none';
-  font="'Zen Maru Gothic'"; decoColor='gold';
+  font="'Zen Maru Gothic'"; decoColor='gold'; isEnglish=false;
   document.getElementById('animal').value='';
   document.getElementById('banner-size').value=1.0;
   document.getElementById('banner-size-v').textContent='1.0';
@@ -502,13 +503,15 @@ function render(){
 
 function drawDeco(ctx){
   const c=decoColors[decoColor]||decoColors.gold;
-  ctx.save(); ctx.strokeStyle=c; ctx.lineWidth=8;
-  ctx.beginPath(); ctx.moveTo(0,155); ctx.bezierCurveTo(CW*.22,275,CW*.52,90,CW*.76,250); ctx.bezierCurveTo(CW*.88,310,CW,195,CW,175); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(CW*.08,68); ctx.bezierCurveTo(CW*.32,192,CW*.58,55,CW*.88,162); ctx.stroke();
+  // Scale y positions: designed at 1920, now 2796 => factor 1.456
+  const sy=CH/1920;
+  ctx.save(); ctx.strokeStyle=c; ctx.lineWidth=Math.round(8*sy);
+  ctx.beginPath(); ctx.moveTo(0,155*sy); ctx.bezierCurveTo(CW*.22,275*sy,CW*.52,90*sy,CW*.76,250*sy); ctx.bezierCurveTo(CW*.88,310*sy,CW,195*sy,CW,175*sy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(CW*.08,68*sy); ctx.bezierCurveTo(CW*.32,192*sy,CW*.58,55*sy,CW*.88,162*sy); ctx.stroke();
   ctx.restore();
-  [[105,192,88],[CW-125,228,94],[CW*.5,82,64],[52,368,52],[CW-72,405,60]].forEach(([x,y,s])=>star(ctx,x,y,s,c));
-  [[75,CH-108,42],[185,CH-50,56],[325,CH-92,46],[470,CH-40,64],[592,CH-122,38],[710,CH-58,50],[850,CH-80,60],[970,CH-128,44],[132,CH-192,33],[430,CH-172,46],[742,CH-158,40],[930,CH-210,35]].forEach(([x,y,r])=>{ ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
-  [[CW*.28,98],[CW*.54,170],[CW*.70,112],[CW*.18,218]].forEach(([x,y])=>{ ctx.beginPath(); ctx.arc(x,y,17,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
+  [[105,192,88],[CW-125,228,94],[CW*.5,82,64],[52,368,52],[CW-72,405,60]].forEach(([x,y,s])=>star(ctx,x,y*sy,s*sy,c));
+  [[75,CH-108*sy,42],[185,CH-50*sy,56],[325,CH-92*sy,46],[470,CH-40*sy,64],[592,CH-122*sy,38],[710,CH-58*sy,50],[850,CH-80*sy,60],[970,CH-128*sy,44],[132,CH-192*sy,33],[430,CH-172*sy,46],[742,CH-158*sy,40],[930,CH-210*sy,35]].forEach(([x,y,r])=>{ ctx.beginPath(); ctx.arc(x,y,r*sy,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
+  [[CW*.28,98*sy],[CW*.54,170*sy],[CW*.70,112*sy],[CW*.18,218*sy]].forEach(([x,y])=>{ ctx.beginPath(); ctx.arc(x,y,17*sy,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
 }
 function star(ctx,cx,cy,sz,c){
   ctx.save(); ctx.translate(cx,cy); ctx.fillStyle=c; ctx.beginPath();
@@ -538,7 +541,7 @@ function drawBanner(ctx){
   const sw=parseInt(document.getElementById('b-sw').value);
   const maxW=CW-80;
   const baseFs=Math.round(86*bannerFontScale), animalFs=Math.round(76*bannerFontScale);
-  const prefix='家に大切な', suffix='がいます';
+  const prefix=isEnglish?'My beloved ':' 家に大切な', suffix=isEnglish?' is home':' がいます';
   ctx.font=`700 ${baseFs}px ${font},'Hiragino Sans',sans-serif`; const pW=ctx.measureText(prefix).width, sW=ctx.measureText(suffix).width;
   ctx.font=`700 ${animalFs}px ${font},'Hiragino Sans',sans-serif`; const aW=ctx.measureText(animal).width;
   const shrink=(pW+aW+sW)>maxW?maxW/(pW+aW+sW):1;
@@ -556,7 +559,9 @@ function drawBanner(ctx){
 
 function drawMsg(ctx){
   const animal=document.getElementById('animal').value.trim()||'ペット';
-  const msgs=[`${animal}が私の帰りを待っています`,'私にもしものことがあったら','気にかけてもらえたら幸いです'];
+  const msgs=isEnglish
+    ? [`My ${animal} is waiting for me at home`,`If something happens to me,`,`please take care of my pet.`]
+    : [`${animal}が私の帰りを待っています`,'私にもしものことがあったら','気にかけてもらえたら幸いです'];
   const sw=parseInt(document.getElementById('m-sw').value);
   const baseFs=Math.round(55*msgFontScale);
   ctx.font=`700 ${baseFs}px ${font},'Hiragino Sans',sans-serif`;
