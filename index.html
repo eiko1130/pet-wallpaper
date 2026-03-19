@@ -19,8 +19,8 @@ html, body { background: #fdf5f6; font-family: 'Hiragino Sans', sans-serif; colo
 
 .preview-col { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 8px 16px 16px; background: #f9eff1; border-right: 0.5px solid #f0dde0; }
 .preview-label { font-size: 10px; color: #b09098; margin-bottom: 6px; text-align: center; }
-#preview-wrap { position: relative; width: 180px; height: 320px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(180,80,80,0.15); user-select: none; touch-action: none; background: #e8d8da; cursor: crosshair; }
-canvas#preview { display: block; width: 180px; height: 320px; }
+#preview-wrap { position: relative; width: 180px; height: 390px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(180,80,80,0.15); user-select: none; touch-action: none; background: #e8d8da; cursor: crosshair; }
+canvas#preview { display: block; width: 180px; height: 390px; }
 .drag-tip { margin-top: 10px; font-size: 10px; color: #b09098; text-align: center; line-height: 1.7; padding: 7px 10px; background: #fff; border-radius: 8px; border: 0.5px solid #f0dde0; }
 
 .controls-col { flex: 1; padding: 20px 16px 80px; }
@@ -75,6 +75,8 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 .dl-btn { width: 100%; padding: 14px; background: #cd5c5c; color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Zen Maru Gothic', sans-serif; margin-top: 4px; letter-spacing: 0.05em; }
 .dl-btn:hover { opacity: 0.85; }
 .dl-btn:disabled { opacity: 0.3; cursor: default; }
+.clear-btn { width: 100%; padding: 11px; background: transparent; border: 0.5px solid #f0dde0; border-radius: 12px; font-size: 13px; color: #b09098; cursor: pointer; font-family: inherit; margin-top: 8px; }
+.clear-btn:hover { background: #fff8f8; color: #cd5c5c; }
 
 /* Modals */
 .modal-bg { display: none; position: fixed; inset: 0; background: rgba(60,20,30,0.5); z-index: 100; align-items: center; justify-content: center; }
@@ -97,8 +99,8 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 @media (max-width: 540px) {
   .layout { flex-direction: column; }
   .preview-col { width: 100%; height: auto; position: sticky; top: 0; flex-direction: row; align-items: center; justify-content: center; gap: 12px; padding: 10px 16px; z-index: 5; }
-  #preview-wrap { width: 90px; height: 160px; flex-shrink: 0; }
-  canvas#preview { width: 90px; height: 160px; }
+  #preview-wrap { width: 90px; height: 195px; flex-shrink: 0; }
+  canvas#preview { width: 90px; height: 195px; }
   .drag-tip { font-size: 10px; flex: 1; max-width: 180px; margin-top: 0; }
   .controls-col { padding: 12px 12px 80px; }
   .site-header { padding: 12px 16px; gap: 10px; }
@@ -121,7 +123,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
   <div class="preview-col">
     <div class="preview-label">プレビュー（9:16）</div>
     <div id="preview-wrap">
-      <canvas id="preview" width="1080" height="1920"></canvas>
+      <canvas id="preview" width="1290" height="2796"></canvas>
     </div>
     <div class="drag-tip">
       👆 テキストは指でドラッグして移動<br>
@@ -153,12 +155,6 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
         <input type="range" id="banner-size" min="0.4" max="2.0" step="0.05" value="1.0" oninput="bannerFontScale=parseFloat(this.value);syncV('banner-size','banner-size-v');render()" />
         <span class="sl-val" id="banner-size-v">1.0</span>
       </div>
-      <p class="sec-sub">バナーの湾曲</p>
-      <div class="slider-row">
-        <span class="sl-lbl">カーブ</span>
-        <input type="range" id="curve" min="-900" max="900" step="10" value="500" oninput="syncV('curve','curve-v');render()" />
-        <span class="sl-val" id="curve-v">500</span>
-      </div>
     </div>
 
     <div class="step">
@@ -188,7 +184,13 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 
     <div class="step">
       <div class="step-title"><span class="step-num">4</span>依頼テキスト</div>
-      <p class="sec-sub" style="margin-top:0">文字色</p>
+      <p class="sec-sub" style="margin-top:0">文字サイズ</p>
+      <div class="slider-row">
+        <span class="sl-lbl">サイズ</span>
+        <input type="range" id="msg-size" min="0.4" max="2.0" step="0.05" value="1.0" oninput="msgFontScale=parseFloat(this.value);syncV('msg-size','msg-size-v');render()" />
+        <span class="sl-val" id="msg-size-v">1.0</span>
+      </div>
+      <p class="sec-sub">文字色</p>
       <div class="swatches" id="mc">
         <div class="sw active" style="background:#ffffff;outline:1px solid #eee;outline-offset:1px" data-c="#ffffff" onclick="pickColor('m',this)"></div>
         <div class="sw" style="background:#5a3844" data-c="#5a3844" onclick="pickColor('m',this)"></div>
@@ -209,6 +211,18 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
         <input type="range" id="m-sw" min="1" max="20" step="1" value="6" oninput="syncV('m-sw','m-sw-v');render()" />
         <span class="sl-val" id="m-sw-v">6</span>
       </div>
+      <p class="sec-sub">テキスト背景</p>
+      <div class="btn-group">
+        <button class="gbtn active" data-v="none" onclick="pickMsgBg(this)">なし</button>
+        <button class="gbtn" data-v="white" onclick="pickMsgBg(this)">白</button>
+        <button class="gbtn" data-v="black" onclick="pickMsgBg(this)">黒</button>
+        <button class="gbtn" data-v="pink" onclick="pickMsgBg(this)">ピンク</button>
+      </div>
+      <div class="slider-row" id="msg-bg-opacity-row" style="display:none">
+        <span class="sl-lbl">透過</span>
+        <input type="range" id="msg-bg-opacity" min="0.1" max="1.0" step="0.05" value="0.7" oninput="syncV('msg-bg-opacity','msg-bg-opacity-v');render()" />
+        <span class="sl-val" id="msg-bg-opacity-v">0.7</span>
+      </div>
     </div>
 
     <div class="step">
@@ -228,6 +242,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
     </div>
 
     <button class="dl-btn" id="dl-btn" onclick="openSaveModal()" disabled>🐾 待受を保存する</button>
+    <button class="clear-btn" onclick="clearAll()">最初からやり直す</button>
   </div>
 </div>
 
@@ -264,7 +279,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 </div>
 
 <script>
-const CW = 1080, CH = 1920;
+const CW = 1290, CH = 2796;
 let img = null, zoom = 1, baseZoom = 1, imgX = 0, imgY = 0;
 let bannerPos = { x: CW/2, y: CH*0.40 };
 let msgPos    = { x: CW/2, y: CH*0.78 };
@@ -273,6 +288,8 @@ let bColor = '#ffffff', mColor = '#ffffff';
 let bStroke = 'none', mStroke = 'none';
 let font = "'Zen Maru Gothic'";
 let decoColor = 'gold';
+let msgFontScale = 1.0;
+let msgBg = 'none';
 let savedDataUrl = '';
 
 const decoColors = {
@@ -432,6 +449,43 @@ function doSave(){
   document.body.removeChild(a);
 }
 
+function pickMsgBg(btn) {
+  btn.closest('.btn-group').querySelectorAll('.gbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  msgBg = btn.dataset.v;
+  document.getElementById('msg-bg-opacity-row').style.display = msgBg==='none' ? 'none' : 'flex';
+  render();
+}
+function clearAll() {
+  if (!confirm('最初からやり直しますか？')) return;
+  img=null; zoom=1; baseZoom=1; imgX=0; imgY=0;
+  bannerPos={x:CW/2,y:CH*0.40}; msgPos={x:CW/2,y:CH*0.78};
+  bannerFontScale=1.0; msgFontScale=1.0; msgBg='none';
+  bColor='#ffffff'; mColor='#ffffff'; bStroke='none'; mStroke='none';
+  font="'Zen Maru Gothic'"; decoColor='gold';
+  document.getElementById('animal').value='';
+  document.getElementById('banner-size').value=1.0;
+  document.getElementById('banner-size-v').textContent='1.0';
+  document.getElementById('msg-size').value=1.0;
+  document.getElementById('msg-size-v').textContent='1.0';
+  document.getElementById('msg-bg-opacity').value=0.7;
+  document.getElementById('msg-bg-opacity-v').textContent='0.7';
+  document.getElementById('msg-bg-opacity-row').style.display='none';
+  document.getElementById('deco').checked=true;
+  document.getElementById('dl-btn').disabled=true;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.fbtn').classList.add('active');
+  document.querySelectorAll('#bc .sw').forEach(s=>s.classList.remove('active'));
+  document.querySelector('#bc .sw').classList.add('active');
+  document.querySelectorAll('#mc .sw').forEach(s=>s.classList.remove('active'));
+  document.querySelector('#mc .sw').classList.add('active');
+  document.querySelectorAll('.dsw').forEach(s=>s.classList.remove('active'));
+  document.querySelector('.dsw').classList.add('active');
+  document.querySelectorAll('.btn-group .gbtn').forEach(b=>{ if(b.dataset.v==='none') b.classList.add('active'); else b.classList.remove('active'); });
+  document.getElementById('b-sw-row').style.display='none';
+  document.getElementById('m-sw-row').style.display='none';
+  render();
+}
 // ---- Render ----
 function render(){
   const cv=document.getElementById('preview');
