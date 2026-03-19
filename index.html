@@ -83,7 +83,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 .modal-bg.open { display: flex; }
 .modal { background: #fff; border-radius: 18px; padding: 20px; width: min(380px, 94vw); max-height: 92vh; display: flex; flex-direction: column; }
 .modal-title { font-size: 15px; font-weight: 700; color: #cd5c5c; margin-bottom: 12px; font-family: 'Zen Maru Gothic', sans-serif; text-align: center; }
-.crop-box { position: relative; width: 60%; margin: 0 auto; aspect-ratio: 9/16; background: #f9eff1; border-radius: 12px; overflow: hidden; cursor: grab; user-select: none; touch-action: none; flex-shrink: 0; }
+.crop-box { position: relative; width: 60%; margin: 0 auto; aspect-ratio: 1290/2796; background: #f9eff1; border-radius: 12px; overflow: hidden; cursor: grab; user-select: none; touch-action: none; flex-shrink: 0; }
 .crop-box.dragging { cursor: grabbing; }
 .crop-box img { position: absolute; transform-origin: 0 0; pointer-events: none; }
 .crop-slider-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
@@ -242,7 +242,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
     </div>
 
     <button class="dl-btn" id="dl-btn" onclick="openSaveModal()" disabled>🐾 待受を保存する</button>
-    <button class="clear-btn" onclick="clearAll()">最初からやり直す</button>
+    <button class="clear-btn" onclick="openClearModal()">最初からやり直す</button>
   </div>
 </div>
 
@@ -456,8 +456,10 @@ function pickMsgBg(btn) {
   document.getElementById('msg-bg-opacity-row').style.display = msgBg==='none' ? 'none' : 'flex';
   render();
 }
-function clearAll() {
-  if (!confirm('最初からやり直しますか？')) return;
+function openClearModal() { document.getElementById('clear-modal').classList.add('open'); }
+function closeClearModal() { document.getElementById('clear-modal').classList.remove('open'); }
+function doClean() {
+  closeClearModal();
   img=null; zoom=1; baseZoom=1; imgX=0; imgY=0;
   bannerPos={x:CW/2,y:CH*0.40}; msgPos={x:CW/2,y:CH*0.78};
   bannerFontScale=1.0; msgFontScale=1.0; msgBg='none';
@@ -535,7 +537,7 @@ function drawBanner(ctx){
   const curveVal=parseInt(document.getElementById('curve').value);
   const sw=parseInt(document.getElementById('b-sw').value);
   const maxW=CW-80;
-  const baseFs=Math.round(72*bannerFontScale), animalFs=Math.round(76*bannerFontScale);
+  const baseFs=Math.round(86*bannerFontScale), animalFs=Math.round(76*bannerFontScale);
   const prefix='家に大切な', suffix='がいます';
   ctx.font=`700 ${baseFs}px ${font},'Hiragino Sans',sans-serif`; const pW=ctx.measureText(prefix).width, sW=ctx.measureText(suffix).width;
   ctx.font=`700 ${animalFs}px ${font},'Hiragino Sans',sans-serif`; const aW=ctx.measureText(animal).width;
@@ -547,7 +549,7 @@ function drawBanner(ctx){
     const draw=(t,fs)=>{ ctx.font=`700 ${fs}px ${font},'Hiragino Sans',sans-serif`; if(bStroke!=='none'){ ctx.strokeStyle=sc(bStroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(t,x,y); } ctx.fillStyle=bColor; ctx.fillText(t,x,y); x+=ctx.measureText(t).width; };
     draw(prefix,fB); draw(animal,fA); draw(suffix,fB); ctx.restore();
   } else {
-    const fs=Math.floor(76*bannerFontScale*shrink);
+    const fs=Math.floor(90*bannerFontScale*shrink);
     arcText(ctx,prefix+animal+suffix,bannerPos.x,bannerPos.y,curveVal,`700 ${fs}px ${font},'Hiragino Sans',sans-serif`,bColor,bStroke,sw);
   }
 }
@@ -556,9 +558,10 @@ function drawMsg(ctx){
   const animal=document.getElementById('animal').value.trim()||'ペット';
   const msgs=[`${animal}が私の帰りを待っています`,'私にもしものことがあったら','気にかけてもらえたら幸いです'];
   const sw=parseInt(document.getElementById('m-sw').value);
-  ctx.font=`700 46px ${font},'Hiragino Sans',sans-serif`;
+  const baseFs=Math.round(55*msgFontScale);
+  ctx.font=`700 ${baseFs}px ${font},'Hiragino Sans',sans-serif`;
   const maxLW=msgs.reduce((m,s)=>Math.max(m,ctx.measureText(s).width),0);
-  const fs=maxLW>CW-80?Math.floor(46*(CW-80)/maxLW):46;
+  const fs=maxLW>CW-80?Math.floor(baseFs*(CW-80)/maxLW):baseFs;
   const lh=fs*1.75;
   ctx.save(); ctx.font=`700 ${fs}px ${font},'Hiragino Sans',sans-serif`; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   msgs.forEach((m,i)=>{
@@ -571,5 +574,17 @@ function drawMsg(ctx){
 
 render();
 </script>
+<!-- Clear Modal -->
+<div class="modal-bg" id="clear-modal">
+  <div class="modal" style="align-items:stretch;text-align:center">
+    <div style="font-size:32px;margin-bottom:12px">🐾</div>
+    <div class="modal-title" style="color:#5a3844">編集内容をクリアしますか？</div>
+    <p style="font-size:13px;color:#8a7078;line-height:1.7;margin-bottom:20px">編集した内容は元に戻せません。</p>
+    <div class="modal-btns">
+      <button class="modal-btn" onclick="closeClearModal()">編集に戻る</button>
+      <button class="modal-btn primary" onclick="doClean()" style="background:#cd5c5c">クリアする</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
