@@ -285,7 +285,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
 <script>
 const CW = 1080, CH = 1920;
 let img = null, zoom = 1, baseZoom = 1, imgX = 0, imgY = 0;
-let bannerPos = { x: CW/2, y: CH*0.38 };
+let bannerPos = { x: CW/2, y: CH*0.30 };
 let msgPos    = { x: CW/2, y: CH*0.76 };
 let bannerFontScale = 1.0, msgFontScale = 1.0;
 let bColor = '#ffffff', mColor = '#ffffff';
@@ -338,7 +338,7 @@ function dist2(e){ const a=e.touches[0],b=e.touches[1]; return Math.hypot(a.clie
 function toCanvas(cx,cy){ const r=pw.getBoundingClientRect(); return [(cx-r.left)*CW/r.width,(cy-r.top)*CH/r.height]; }
 function startTDrag(cx,cy){
   const [x,y]=toCanvas(cx,cy);
-  if(Math.abs(x-bannerPos.x)<CW*0.48&&Math.abs(y-bannerPos.y)<CH*0.10) tDrag='b';
+  if(Math.abs(x-bannerPos.x)<CW*0.48&&Math.abs(y-bannerPos.y)<200) tDrag='b';
   else if(Math.abs(x-msgPos.x)<CW*0.46&&Math.abs(y-msgPos.y)<CH*0.12) tDrag='m';
   tLX=cx; tLY=cy;
 }
@@ -458,7 +458,7 @@ function closeClearModal(){ document.getElementById('clear-modal').classList.rem
 function doClean(){
   closeClearModal();
   img=null; zoom=1; baseZoom=1; imgX=0; imgY=0;
-  bannerPos={x:CW/2,y:CH*0.38}; msgPos={x:CW/2,y:CH*0.76};
+  bannerPos={x:CW/2,y:CH*0.30}; msgPos={x:CW/2,y:CH*0.76};
   bannerFontScale=1.0; msgFontScale=1.0; msgBg='none'; isEnglish=false;
   bColor='#ffffff'; mColor='#ffffff'; bStroke='none'; mStroke='none';
   font="'Zen Maru Gothic'"; decoColor='gold';
@@ -536,13 +536,13 @@ function drawBanner(ctx){
   const tw=ctx.measureText(fullText).width;
   const shrink=tw>maxW?maxW/tw:1;
   const fs=Math.floor(baseFs*shrink);
-  arcText(ctx,fullText,bannerPos.x,bannerPos.y,curveVal,`700 ${fs}px ${font},'Hiragino Sans',sans-serif`,bColor,bStroke,sw);
+  arcText(ctx,fullText,bannerPos.x,bannerPos.y+curveVal,curveVal,`700 ${fs}px ${font},'Hiragino Sans',sans-serif`,bColor,bStroke,sw);
 }
 
 function drawMsg(ctx){
   const animal=document.getElementById('animal').value.trim()||(isEnglish?'pet':'ペット');
   const msgs=isEnglish
-    ?[`In case of emergency,`,`please look after my ${animal}.`,'']
+    ?[`In case of emergency,`,`please check on my ${animal} at home`,`and ensure they are safe.`]
     :[`${animal}が私の帰りを待っています`,'私にもしものことがあったら','気にかけてもらえたら幸いです'];
   const sw=parseInt(document.getElementById('m-sw').value);
   const baseFs=Math.round(46*msgFontScale);
