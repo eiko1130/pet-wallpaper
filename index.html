@@ -138,7 +138,7 @@ input[type=range] { flex: 1; accent-color: #cd5c5c; }
       <div class="font-row">
         <button class="fbtn active" data-font="'Zen Maru Gothic'" data-lang="ja" onclick="pickFont(this)" style="font-family:'Zen Maru Gothic'">まるごしっく</button>
         <button class="fbtn" data-font="'Kaisei Decol'" data-lang="ja" onclick="pickFont(this)" style="font-family:'Kaisei Decol'">明朝デコル</button>
-        <button class="fbtn" data-font="'Darumadrop One'" data-lang="en" onclick="pickFont(this)" style="font-family:'Darumadrop One'">Daruma</button>
+        <button class="fbtn" data-font="'Darumadrop One'" data-lang="en" onclick="pickFont(this)" style="font-family:'Darumadrop One'">Daruma（英語）</button>
       </div>
       <p class="sec-sub">タイトルの文字サイズ</p>
       <div class="slider-row">
@@ -526,32 +526,23 @@ function arcText(ctx,text,cx,cy,radius,fnt,color,stroke,sw){
 function drawBanner(ctx){
   const animal=document.getElementById('animal').value.trim()||(isEnglish?'pet':'ペット');
   const sw=parseInt(document.getElementById('b-sw').value);
+  const curveVal=600;
   const maxW=CW-80;
-  const baseFs=Math.round(72*bannerFontScale);
-  const animalFs=Math.round(96*bannerFontScale);
-  const prefix=isEnglish?'My beloved ':'家に大切な';
-  const suffix=isEnglish?' is home':'がいます';
-
-  ctx.font=`700 ${baseFs}px ${font},'Hiragino Sans',sans-serif`; const pW=ctx.measureText(prefix).width, sW=ctx.measureText(suffix).width;
-  ctx.font=`700 ${animalFs}px ${font},'Hiragino Sans',sans-serif`; const aW=ctx.measureText(animal).width;
-  const shrink=(pW+aW+sW)>maxW?maxW/(pW+aW+sW):1;
-  const fB=Math.floor(baseFs*shrink), fA=Math.floor(animalFs*shrink);
-
-  ctx.save(); ctx.textAlign='left'; ctx.textBaseline='alphabetic';
-  let x=bannerPos.x-(pW+aW+sW)*shrink/2; const y=bannerPos.y;
-  const draw=(t,fs)=>{
-    ctx.font=`700 ${fs}px ${font},'Hiragino Sans',sans-serif`;
-    if(bStroke!=='none'){ ctx.strokeStyle=sc(bStroke); ctx.lineWidth=sw*2; ctx.lineJoin='round'; ctx.strokeText(t,x,y); }
-    ctx.fillStyle=bColor; ctx.fillText(t,x,y); x+=ctx.measureText(t).width;
-  };
-  draw(prefix,fB); draw(animal,fA); draw(suffix,fB);
-  ctx.restore();
+  const baseFs=Math.round(80*bannerFontScale);
+  const prefix=isEnglish?'My ':'家に大切な';
+  const suffix=isEnglish?' is home alone':'がいます';
+  const fullText=prefix+animal+suffix;
+  ctx.font=`700 ${baseFs}px ${font},'Hiragino Sans',sans-serif`;
+  const tw=ctx.measureText(fullText).width;
+  const shrink=tw>maxW?maxW/tw:1;
+  const fs=Math.floor(baseFs*shrink);
+  arcText(ctx,fullText,bannerPos.x,bannerPos.y,curveVal,`700 ${fs}px ${font},'Hiragino Sans',sans-serif`,bColor,bStroke,sw);
 }
 
 function drawMsg(ctx){
   const animal=document.getElementById('animal').value.trim()||(isEnglish?'pet':'ペット');
   const msgs=isEnglish
-    ?[`My ${animal} is waiting for me at home`,'If something happens to me,','please take care of my pet.']
+    ?[`In case of emergency,`,`please look after my ${animal}.`,'']
     :[`${animal}が私の帰りを待っています`,'私にもしものことがあったら','気にかけてもらえたら幸いです'];
   const sw=parseInt(document.getElementById('m-sw').value);
   const baseFs=Math.round(46*msgFontScale);
